@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178t" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="101100" identifier="macosx"/>
+        <development version="5000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="AAPLBrowserWindowController">
+            <connections>
+                <outlet property="imageCollectionView" destination="100141" id="edz-dG-FiE"/>
+                <outlet property="statusTextField" destination="Pdr-U6-0Bq" id="LoQ-eh-pGq"/>
+                <outlet property="window" destination="5" id="9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Slides" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" id="5" userLabel="Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES"/>
+            <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="44" y="235" width="1025" height="605"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <value key="minSize" type="size" width="213" height="107"/>
+            <view key="contentView" id="6">
+                <rect key="frame" x="0.0" y="-1" width="1025" height="605"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="41">
+                        <rect key="frame" x="72" y="25" width="90" height="26"/>
+                        <animations/>
+                        <popUpButtonCell key="cell" type="push" title="Wrapped" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="44" id="100041">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" userInterfaceLayoutDirection="leftToRight" id="42">
+                                <items>
+                                    <menuItem title="Circular" keyEquivalent="1" id="43"/>
+                                    <menuItem title="Loop" tag="1" keyEquivalent="2" id="54"/>
+                                    <menuItem title="Scatter" tag="2" keyEquivalent="3" id="45"/>
+                                    <menuItem title="Wrapped" state="on" tag="3" keyEquivalent="4" id="44"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="-2" name="selectedTag" keyPath="layoutKind" id="QGl-wQ-Qty">
+                                <dictionary key="options">
+                                    <bool key="NSConditionallySetsEnabled" value="NO"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </popUpButton>
+                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="57">
+                        <rect key="frame" x="18" y="31" width="50" height="17"/>
+                        <animations/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Layout:" id="100057">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <scrollView wantsLayer="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="100140">
+                        <rect key="frame" x="0.0" y="56" width="1025" height="549"/>
+                        <clipView key="contentView" copiesOnScroll="NO" id="9qe-5N-UMG">
+                            <rect key="frame" x="1" y="1" width="1024" height="548"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <collectionView selectable="YES" allowsMultipleSelection="YES" id="100141">
+                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="548"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <animations/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="JcV-b7-SuC">
+                                        <size key="itemSize" width="120" height="120"/>
+                                    </collectionViewFlowLayout>
+                                    <color key="primaryBackgroundColor" red="0.90980392160000001" green="1" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="3HO-7c-FBS"/>
+                                        <outlet property="delegate" destination="-2" id="wc1-W4-8YM"/>
+                                    </connections>
+                                </collectionView>
+                            </subviews>
+                            <animations/>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <animations/>
+                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="100142">
+                            <rect key="frame" x="1" y="144" width="233" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="100143">
+                            <rect key="frame" x="234" y="1" width="15" height="143"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
+                        </scroller>
+                    </scrollView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pdr-U6-0Bq">
+                        <rect key="frame" x="18" y="9" width="989" height="14"/>
+                        <animations/>
+                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="Status" id="0CV-hM-PvD">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="0fI-J4-eKk" userLabel="Group by Tag">
+                        <rect key="frame" x="177" y="30" width="105" height="18"/>
+                        <animations/>
+                        <buttonCell key="cell" type="check" title="Group by Tag" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lkO-88-VUc">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="groupByTag" id="1ML-wm-jbf">
+                                <dictionary key="options">
+                                    <bool key="NSValidatesImmediately" value="YES"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="100140" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="100192"/>
+                    <constraint firstAttribute="trailing" secondItem="100140" secondAttribute="trailing" id="100195"/>
+                    <constraint firstItem="100140" firstAttribute="top" secondItem="6" secondAttribute="top" id="100198"/>
+                    <constraint firstItem="57" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="EEU-z6-WSr"/>
+                    <constraint firstAttribute="bottom" secondItem="100140" secondAttribute="bottom" constant="56" id="QKN-Ak-z7T"/>
+                    <constraint firstItem="0fI-J4-eKk" firstAttribute="leading" secondItem="41" secondAttribute="trailing" constant="20" id="S5f-ij-vhM"/>
+                    <constraint firstItem="41" firstAttribute="baseline" secondItem="57" secondAttribute="baseline" id="TZQ-Ff-Me6"/>
+                    <constraint firstItem="Pdr-U6-0Bq" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="jq4-Oz-tmy"/>
+                    <constraint firstItem="0fI-J4-eKk" firstAttribute="baseline" secondItem="41" secondAttribute="baseline" id="jtX-jF-cBr"/>
+                    <constraint firstAttribute="trailing" secondItem="Pdr-U6-0Bq" secondAttribute="trailing" constant="20" id="kNd-tf-ebd"/>
+                    <constraint firstAttribute="bottom" secondItem="Pdr-U6-0Bq" secondAttribute="bottom" constant="9" id="oGA-r8-IZH"/>
+                    <constraint firstItem="41" firstAttribute="leading" secondItem="57" secondAttribute="trailing" constant="8" symbolic="YES" id="x0N-Hf-JE2"/>
+                    <constraint firstItem="Pdr-U6-0Bq" firstAttribute="top" secondItem="57" secondAttribute="bottom" constant="8" symbolic="YES" id="ye4-j2-8px"/>
+                </constraints>
+                <animations/>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="10"/>
+            </connections>
+            <point key="canvasLocation" x="446.5" y="-244.5"/>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="50" userLabel="Shared Defaults"/>
+    </objects>
+</document>

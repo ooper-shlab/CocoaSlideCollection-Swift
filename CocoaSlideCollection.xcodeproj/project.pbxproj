@@ -1,0 +1,538 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		058F205A1AE0106A003C6E86 /* Slide.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058F20581AE0106A003C6E86 /* Slide.xib */; };
+		05C20B501B06865E00EE9D8B /* Footer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05C20B4C1B06865E00EE9D8B /* Footer.xib */; };
+		05C20B511B06865E00EE9D8B /* Header.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05C20B4E1B06865E00EE9D8B /* Header.xib */; };
+		05E0E6E10A8A4B0700C10370 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E0E6E00A8A4B0700C10370 /* Quartz.framework */; };
+		05F0DE880A632614004CE6A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F0DE870A632614004CE6A7 /* QuartzCore.framework */; };
+		05F61A0F1B0509AD009C3004 /* SlideArt.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05F61A0E1B0509AD009C3004 /* SlideArt.xcassets */; };
+		5317E3C416DED79500D89082 /* BrowserWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5317E3BE16DED79500D89082 /* BrowserWindow.xib */; };
+		5317E3C516DED79500D89082 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5317E3C016DED79500D89082 /* MainMenu.xib */; };
+		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		D70384E21C2E30BB0085EAB4 /* AAPLImageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7384D211C2C1558008BB841 /* AAPLImageCollection.swift */; };
+		D70384E31C2E36330085EAB4 /* AAPLBrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D756F1A41C2826F4006C884C /* AAPLBrowserWindowController.swift */; };
+		D70384E51C2E3B060085EAB4 /* AAPLScatterLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384E41C2E3B060085EAB4 /* AAPLScatterLayout.swift */; };
+		D70384E71C2E3B3B0085EAB4 /* AAPLSlideImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384E61C2E3B3B0085EAB4 /* AAPLSlideImageView.swift */; };
+		D70384EA1C2E3D660085EAB4 /* AAPLSlideBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384E91C2E3D660085EAB4 /* AAPLSlideBorderView.swift */; };
+		D70384EC1C2E3D8A0085EAB4 /* AAPLSlideCarrierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384EB1C2E3D8A0085EAB4 /* AAPLSlideCarrierView.swift */; };
+		D70384EE1C2E47960085EAB4 /* AAPLSlideLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384ED1C2E47960085EAB4 /* AAPLSlideLayout.swift */; };
+		D70384F01C2E4E710085EAB4 /* AAPLCircularLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384EF1C2E4E710085EAB4 /* AAPLCircularLayout.swift */; };
+		D70384F21C2E50A80085EAB4 /* AAPLLoopLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384F11C2E50A80085EAB4 /* AAPLLoopLayout.swift */; };
+		D70384F41C2E53E60085EAB4 /* AAPLWrappedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384F31C2E53E60085EAB4 /* AAPLWrappedLayout.swift */; };
+		D70384F61C2E5E8A0085EAB4 /* AAPLSlideTableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384F51C2E5E8A0085EAB4 /* AAPLSlideTableBackgroundView.swift */; };
+		D70384F81C2E72770085EAB4 /* AAPLFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384F71C2E72770085EAB4 /* AAPLFooterView.swift */; };
+		D70384FA1C2E728A0085EAB4 /* AAPLHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384F91C2E728A0085EAB4 /* AAPLHeaderView.swift */; };
+		D70384FC1C2E74420085EAB4 /* AAPLSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70384FB1C2E74420085EAB4 /* AAPLSlide.swift */; };
+		D70385121C2F75500085EAB4 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70385111C2F754F0085EAB4 /* AAPLAppDelegate.swift */; };
+		D70385141C2F82850085EAB4 /* AAPLImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7384D181C2AD12D008BB841 /* AAPLImageFile.swift */; };
+		D70385171C2F99A50085EAB4 /* Array+sorted.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70385151C2F99A50085EAB4 /* Array+sorted.swift */; };
+		D70385181C2F99A50085EAB4 /* ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70385161C2F99A50085EAB4 /* ObjC.swift */; };
+		D7384D1B1C2AE6B3008BB841 /* AAPLTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7384D1A1C2AE6B3008BB841 /* AAPLTag.swift */; };
+		D7384D1E1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7384D1D1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		058F20591AE0106A003C6E86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Slide.xib; sourceTree = "<group>"; };
+		05C20B4D1B06865E00EE9D8B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Footer.xib; sourceTree = "<group>"; };
+		05C20B4F1B06865E00EE9D8B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Header.xib; sourceTree = "<group>"; };
+		05E0E6E00A8A4B0700C10370 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		05F0DE870A632614004CE6A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		05F61A0E1B0509AD009C3004 /* SlideArt.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SlideArt.xcassets; path = ../Resources/SlideArt.xcassets; sourceTree = "<group>"; };
+		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		4D523C501B190C540032EEB7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5317E3BF16DED79500D89082 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		5317E3C116DED79500D89082 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		53AE252416DED25D00165898 /* CocoaSlideCollection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CocoaSlideCollection.entitlements; path = CocoaSlideCollection/CocoaSlideCollection.entitlements; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CocoaSlideCollection/Info.plist; sourceTree = SOURCE_ROOT; };
+		8D15AC370486D014006FF6A4 /* CocoaSlideCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaSlideCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D70384E41C2E3B060085EAB4 /* AAPLScatterLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLScatterLayout.swift; sourceTree = "<group>"; };
+		D70384E61C2E3B3B0085EAB4 /* AAPLSlideImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSlideImageView.swift; sourceTree = "<group>"; };
+		D70384E91C2E3D660085EAB4 /* AAPLSlideBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSlideBorderView.swift; sourceTree = "<group>"; };
+		D70384EB1C2E3D8A0085EAB4 /* AAPLSlideCarrierView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSlideCarrierView.swift; sourceTree = "<group>"; };
+		D70384ED1C2E47960085EAB4 /* AAPLSlideLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSlideLayout.swift; sourceTree = "<group>"; };
+		D70384EF1C2E4E710085EAB4 /* AAPLCircularLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLCircularLayout.swift; sourceTree = "<group>"; };
+		D70384F11C2E50A80085EAB4 /* AAPLLoopLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLLoopLayout.swift; sourceTree = "<group>"; };
+		D70384F31C2E53E60085EAB4 /* AAPLWrappedLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLWrappedLayout.swift; sourceTree = "<group>"; };
+		D70384F51C2E5E8A0085EAB4 /* AAPLSlideTableBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSlideTableBackgroundView.swift; sourceTree = "<group>"; };
+		D70384F71C2E72770085EAB4 /* AAPLFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFooterView.swift; sourceTree = "<group>"; };
+		D70384F91C2E728A0085EAB4 /* AAPLHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLHeaderView.swift; sourceTree = "<group>"; };
+		D70384FB1C2E74420085EAB4 /* AAPLSlide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AAPLSlide.swift; path = CocoaSlideCollection/View/AAPLSlide.swift; sourceTree = SOURCE_ROOT; };
+		D70385111C2F754F0085EAB4 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
+		D70385151C2F99A50085EAB4 /* Array+sorted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+sorted.swift"; path = "OOPUtils/Array+sorted.swift"; sourceTree = "<group>"; };
+		D70385161C2F99A50085EAB4 /* ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjC.swift; path = OOPUtils/ObjC.swift; sourceTree = "<group>"; };
+		D70385191C2F99EF0085EAB4 /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
+		D703851B1C2F9A050085EAB4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D7384D181C2AD12D008BB841 /* AAPLImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLImageFile.swift; sourceTree = "<group>"; };
+		D7384D1A1C2AE6B3008BB841 /* AAPLTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLTag.swift; sourceTree = "<group>"; };
+		D7384D1D1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFileTreeWatcherThread.swift; sourceTree = "<group>"; };
+		D7384D211C2C1558008BB841 /* AAPLImageCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLImageCollection.swift; sourceTree = "<group>"; };
+		D756F1A41C2826F4006C884C /* AAPLBrowserWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLBrowserWindowController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D15AC330486D014006FF6A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+				05F0DE880A632614004CE6A7 /* QuartzCore.framework in Frameworks */,
+				05E0E6E10A8A4B0700C10370 /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		054BB0811B14C7D900B820AF /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				D70384ED1C2E47960085EAB4 /* AAPLSlideLayout.swift */,
+				D70384EF1C2E4E710085EAB4 /* AAPLCircularLayout.swift */,
+				D70384F11C2E50A80085EAB4 /* AAPLLoopLayout.swift */,
+				D70384E41C2E3B060085EAB4 /* AAPLScatterLayout.swift */,
+				D70384F31C2E53E60085EAB4 /* AAPLWrappedLayout.swift */,
+			);
+			name = Layouts;
+			path = View/Layouts;
+			sourceTree = "<group>";
+		};
+		05AF34991B15655100BFC864 /* Background View */ = {
+			isa = PBXGroup;
+			children = (
+				D70384F51C2E5E8A0085EAB4 /* AAPLSlideTableBackgroundView.swift */,
+			);
+			name = "Background View";
+			sourceTree = "<group>";
+		};
+		05D26BCA1AEFBEE6000E92C4 /* Header and Footer Views */ = {
+			isa = PBXGroup;
+			children = (
+				D70384F91C2E728A0085EAB4 /* AAPLHeaderView.swift */,
+				D70384F71C2E72770085EAB4 /* AAPLFooterView.swift */,
+			);
+			name = "Header and Footer Views";
+			sourceTree = "<group>";
+		};
+		05D26BCB1AEFBEF7000E92C4 /* Slide */ = {
+			isa = PBXGroup;
+			children = (
+				D70384EB1C2E3D8A0085EAB4 /* AAPLSlideCarrierView.swift */,
+				D70384E91C2E3D660085EAB4 /* AAPLSlideBorderView.swift */,
+				D70384E61C2E3B3B0085EAB4 /* AAPLSlideImageView.swift */,
+			);
+			name = Slide;
+			sourceTree = "<group>";
+		};
+		05F0DFCF0A6326A4004CE6A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D7384D211C2C1558008BB841 /* AAPLImageCollection.swift */,
+				D7384D1A1C2AE6B3008BB841 /* AAPLTag.swift */,
+				D7384D181C2AD12D008BB841 /* AAPLImageFile.swift */,
+				D7384D1D1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		05F0DFE00A6326EC004CE6A7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				05D26BCB1AEFBEF7000E92C4 /* Slide */,
+				05D26BCA1AEFBEE6000E92C4 /* Header and Footer Views */,
+				05AF34991B15655100BFC864 /* Background View */,
+			);
+			name = Views;
+			path = View;
+			sourceTree = "<group>";
+		};
+		05F0DFEA0A632715004CE6A7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D70385111C2F754F0085EAB4 /* AAPLAppDelegate.swift */,
+				D756F1A41C2826F4006C884C /* AAPLBrowserWindowController.swift */,
+				D70384FB1C2E74420085EAB4 /* AAPLSlide.swift */,
+			);
+			name = Controllers;
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				05E0E6E00A8A4B0700C10370 /* Quartz.framework */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+				05F0DE870A632614004CE6A7 /* QuartzCore.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				13E42FBA07B3F13500E4EEF1 /* CoreData.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D15AC370486D014006FF6A4 /* CocoaSlideCollection.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* xGallery */ = {
+			isa = PBXGroup;
+			children = (
+				D703851B1C2F9A050085EAB4 /* LICENSE.txt */,
+				4D523C501B190C540032EEB7 /* README.md */,
+				D70385191C2F99EF0085EAB4 /* README2.md */,
+				53AE252416DED25D00165898 /* CocoaSlideCollection.entitlements */,
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+			);
+			name = xGallery;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				05F0DFEA0A632715004CE6A7 /* Controllers */,
+				05F0DFE00A6326EC004CE6A7 /* Views */,
+				054BB0811B14C7D900B820AF /* Layouts */,
+				05F0DFCF0A6326A4004CE6A7 /* Model */,
+			);
+			name = Classes;
+			path = CocoaSlideCollection;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D70384E81C2E3D1A0085EAB4 /* OOPUtils */,
+			);
+			name = "Other Sources";
+			path = CocoaSlideCollection;
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D15AC360486D014006FF6A4 /* Info.plist */,
+				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				058F20581AE0106A003C6E86 /* Slide.xib */,
+				05C20B4E1B06865E00EE9D8B /* Header.xib */,
+				05C20B4C1B06865E00EE9D8B /* Footer.xib */,
+				5317E3BE16DED79500D89082 /* BrowserWindow.xib */,
+				5317E3C016DED79500D89082 /* MainMenu.xib */,
+				05F61A0E1B0509AD009C3004 /* SlideArt.xcassets */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			path = CocoaSlideCollection/English.lproj;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D70384E81C2E3D1A0085EAB4 /* OOPUtils */ = {
+			isa = PBXGroup;
+			children = (
+				D70385151C2F99A50085EAB4 /* Array+sorted.swift */,
+				D70385161C2F99A50085EAB4 /* ObjC.swift */,
+			);
+			name = OOPUtils;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D15AC270486D014006FF6A4 /* Cocoa Slides */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Cocoa Slides" */;
+			buildPhases = (
+				8D15AC2B0486D014006FF6A4 /* Resources */,
+				8D15AC300486D014006FF6A4 /* Sources */,
+				8D15AC330486D014006FF6A4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Cocoa Slides";
+			productInstallPath = "$(HOME)/Applications";
+			productName = xGallery;
+			productReference = 8D15AC370486D014006FF6A4 /* CocoaSlideCollection.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					8D15AC270486D014006FF6A4 = {
+						DevelopmentTeam = ZCR395M3U8;
+					};
+				};
+			};
+			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "CocoaSlideCollection" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				English,
+			);
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* xGallery */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D15AC270486D014006FF6A4 /* Cocoa Slides */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D15AC2B0486D014006FF6A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05C20B501B06865E00EE9D8B /* Footer.xib in Resources */,
+				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
+				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				05C20B511B06865E00EE9D8B /* Header.xib in Resources */,
+				5317E3C416DED79500D89082 /* BrowserWindow.xib in Resources */,
+				5317E3C516DED79500D89082 /* MainMenu.xib in Resources */,
+				058F205A1AE0106A003C6E86 /* Slide.xib in Resources */,
+				05F61A0F1B0509AD009C3004 /* SlideArt.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D15AC300486D014006FF6A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D70384EC1C2E3D8A0085EAB4 /* AAPLSlideCarrierView.swift in Sources */,
+				D70385171C2F99A50085EAB4 /* Array+sorted.swift in Sources */,
+				D70384F41C2E53E60085EAB4 /* AAPLWrappedLayout.swift in Sources */,
+				D70385181C2F99A50085EAB4 /* ObjC.swift in Sources */,
+				D70384F21C2E50A80085EAB4 /* AAPLLoopLayout.swift in Sources */,
+				D70384F61C2E5E8A0085EAB4 /* AAPLSlideTableBackgroundView.swift in Sources */,
+				D7384D1E1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift in Sources */,
+				D70385121C2F75500085EAB4 /* AAPLAppDelegate.swift in Sources */,
+				D70384E71C2E3B3B0085EAB4 /* AAPLSlideImageView.swift in Sources */,
+				D70384EE1C2E47960085EAB4 /* AAPLSlideLayout.swift in Sources */,
+				D70384FC1C2E74420085EAB4 /* AAPLSlide.swift in Sources */,
+				D70384E21C2E30BB0085EAB4 /* AAPLImageCollection.swift in Sources */,
+				D70385141C2F82850085EAB4 /* AAPLImageFile.swift in Sources */,
+				D70384E51C2E3B060085EAB4 /* AAPLScatterLayout.swift in Sources */,
+				D70384FA1C2E728A0085EAB4 /* AAPLHeaderView.swift in Sources */,
+				D7384D1B1C2AE6B3008BB841 /* AAPLTag.swift in Sources */,
+				D70384E31C2E36330085EAB4 /* AAPLBrowserWindowController.swift in Sources */,
+				D70384EA1C2E3D660085EAB4 /* AAPLSlideBorderView.swift in Sources */,
+				D70384F81C2E72770085EAB4 /* AAPLFooterView.swift in Sources */,
+				D70384F01C2E4E710085EAB4 /* AAPLCircularLayout.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		058F20581AE0106A003C6E86 /* Slide.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				058F20591AE0106A003C6E86 /* English */,
+			);
+			name = Slide.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		05C20B4C1B06865E00EE9D8B /* Footer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05C20B4D1B06865E00EE9D8B /* English */,
+			);
+			name = Footer.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		05C20B4E1B06865E00EE9D8B /* Header.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05C20B4F1B06865E00EE9D8B /* English */,
+			);
+			name = Header.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1660FE840EACC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4BAFDCFA73011CA2CEA /* English */,
+			);
+			name = Credits.rtf;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		5317E3BE16DED79500D89082 /* BrowserWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5317E3BF16DED79500D89082 /* English */,
+			);
+			name = BrowserWindow.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		5317E3C016DED79500D89082 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5317E3C116DED79500D89082 /* English */,
+			);
+			name = MainMenu.xib;
+			path = ..;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C05733C808A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = CocoaSlideCollection/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.CocoaSlideCollection";
+				PRODUCT_NAME = CocoaSlideCollection;
+				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C05733C908A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
+				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = CocoaSlideCollection/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.CocoaSlideCollection";
+				PRODUCT_NAME = CocoaSlideCollection;
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C05733CC08A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C05733CD08A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "Cocoa Slides" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733C808A9546B00998B17 /* Debug */,
+				C05733C908A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "CocoaSlideCollection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733CC08A9546B00998B17 /* Debug */,
+				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}
