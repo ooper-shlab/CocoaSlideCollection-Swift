@@ -591,23 +591,25 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 one at a time.
                 */
                 var adjustedToItemIndex = indexPath.item - 1
-                for fromIndexPath in indexPathsOfItemsBeingDragged {
+                for fromIndexPath in indexPathsOfItemsBeingDragged.lazy.reverse() {
                     let fromItemIndex = fromIndexPath.item
-                    
-                    /*
-                    For each step: First, modify our model.
-                    */
-                    imageCollection?.moveImageFileFromIndex(fromItemIndex, toIndex: adjustedToItemIndex)
-                    
-                    /*
-                    Next, notify the CollectionView of the change we just
-                    made to our model.
-                    */
-                    let adjustedToIndexPath = NSIndexPath(forItem: adjustedToItemIndex, inSection: indexPath.section)
-                    imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: adjustedToIndexPath)
-                    
-                    // Retreat to maintain moved items in their original order.
-                    --adjustedToItemIndex
+                    if fromItemIndex < adjustedToItemIndex {
+                        
+                        /*
+                        For each step: First, modify our model.
+                        */
+                        imageCollection?.moveImageFileFromIndex(fromItemIndex, toIndex: adjustedToItemIndex)
+                        
+                        /*
+                        Next, notify the CollectionView of the change we just
+                        made to our model.
+                        */
+                        let adjustedToIndexPath = NSIndexPath(forItem: adjustedToItemIndex, inSection: indexPath.section)
+                        imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: adjustedToIndexPath)
+                        
+                        // Retreat to maintain moved items in their original order.
+                        --adjustedToItemIndex
+                    }
                 }
                 
                 // We did it!
