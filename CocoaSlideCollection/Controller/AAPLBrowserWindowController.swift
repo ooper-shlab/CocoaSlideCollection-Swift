@@ -559,13 +559,14 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 
             } else {
                 
+                let indexPathsOfItemsBeingDraggedSorted = indexPathsOfItemsBeingDragged.sort{$0.compare($1) == .OrderedAscending}
                 /*
                 Walk forward through fromItemIndex values > toItemIndex, to keep
                 our "from" and "to" indexes valid as we go, moving items one at
                 a time.
                 */
                 var toItemIndex = indexPath.item
-                for fromIndexPath in indexPathsOfItemsBeingDragged {
+                for fromIndexPath in indexPathsOfItemsBeingDraggedSorted {
                     let fromItemIndex = fromIndexPath.item
                     if fromItemIndex > toItemIndex {
                         
@@ -591,7 +592,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 one at a time.
                 */
                 var adjustedToItemIndex = indexPath.item - 1
-                for fromIndexPath in indexPathsOfItemsBeingDragged.lazy.reverse() {
+                for fromIndexPath in indexPathsOfItemsBeingDraggedSorted.lazy.reverse() {
                     let fromItemIndex = fromIndexPath.item
                     if fromItemIndex < adjustedToItemIndex {
                         

@@ -76,8 +76,6 @@
 		D70385161C2F99A50085EAB4 /* ObjC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjC.swift; path = OOPUtils/ObjC.swift; sourceTree = "<group>"; };
 		D70385191C2F99EF0085EAB4 /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
 		D703851B1C2F9A050085EAB4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		D71585241C418B3B00DE63FD /* AAPLBrowserWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AAPLBrowserWindowController.h; sourceTree = "<group>"; };
-		D71585251C418B3B00DE63FD /* AAPLBrowserWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AAPLBrowserWindowController.m; sourceTree = "<group>"; };
 		D7384D181C2AD12D008BB841 /* AAPLImageFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLImageFile.swift; sourceTree = "<group>"; };
 		D7384D1A1C2AE6B3008BB841 /* AAPLTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLTag.swift; sourceTree = "<group>"; };
 		D7384D1D1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFileTreeWatcherThread.swift; sourceTree = "<group>"; };
@@ -166,8 +164,6 @@
 			children = (
 				D70385111C2F754F0085EAB4 /* AAPLAppDelegate.swift */,
 				D756F1A41C2826F4006C884C /* AAPLBrowserWindowController.swift */,
-				D71585241C418B3B00DE63FD /* AAPLBrowserWindowController.h */,
-				D71585251C418B3B00DE63FD /* AAPLBrowserWindowController.m */,
 				D70384FB1C2E74420085EAB4 /* AAPLSlide.swift */,
 			);
 			name = Controllers;
