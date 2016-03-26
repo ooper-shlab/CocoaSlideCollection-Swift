@@ -17,4 +17,4 @@ See license terms in each file.
 
 ### Build
 
-Xcode 7.2, OS X 10.11 SDK
+Xcode 7.3, OS X 10.11 SDK

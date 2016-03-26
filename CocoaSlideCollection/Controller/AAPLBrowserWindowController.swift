@@ -582,7 +582,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: NSIndexPath(forItem: toItemIndex, inSection: indexPath.section))
                         
                         // Advance to maintain moved items in their original order.
-                        ++toItemIndex
+                        toItemIndex += 1
                     }
                 }
                 
@@ -609,7 +609,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: adjustedToIndexPath)
                         
                         // Retreat to maintain moved items in their original order.
-                        --adjustedToItemIndex
+                        adjustedToItemIndex -= 1
                     }
                 }
                 

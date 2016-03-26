@@ -30,7 +30,7 @@ class AAPLScatterLayout: AAPLSlideLayout {
             cachedItemFrames[indexPath] = frameValue!
         }
         
-        let attributes = self.dynamicType.layoutAttributesClass().layoutAttributesForItemWithIndexPath(indexPath) as! NSCollectionViewLayoutAttributes
+        let attributes = (self.dynamicType.layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWithIndexPath: indexPath)
         attributes.frame = frameValue!
         attributes.zIndex = indexPath.item
         return attributes

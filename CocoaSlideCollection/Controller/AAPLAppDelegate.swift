@@ -45,7 +45,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
         controller go.
         */
         if let browserWindow = browserWindowController.window {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "browserWindowWillClose:", name: NSWindowWillCloseNotification, object: browserWindow)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AAPLAppDelegate.browserWindowWillClose(_:)), name: NSWindowWillCloseNotification, object: browserWindow)
         }
     }
     

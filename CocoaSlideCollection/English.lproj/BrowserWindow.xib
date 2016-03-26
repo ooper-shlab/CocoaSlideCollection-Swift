@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="101100" identifier="macosx"/>
         <development version="5000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AAPLBrowserWindowController">
@@ -26,8 +26,8 @@
                 <rect key="frame" x="0.0" y="-1" width="1025" height="605"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="41">
-                        <rect key="frame" x="72" y="25" width="90" height="26"/>
+                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="41">
+                        <rect key="frame" x="71" y="25" width="93" height="26"/>
                         <popUpButtonCell key="cell" type="push" title="Wrapped" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="44" id="100041">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -48,8 +48,8 @@
                             </binding>
                         </connections>
                     </popUpButton>
-                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="57">
-                        <rect key="frame" x="18" y="31" width="50" height="17"/>
+                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="57">
+                        <rect key="frame" x="18" y="31" width="49" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Layout:" id="100057">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -94,8 +94,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fI-J4-eKk" userLabel="Group by Tag">
-                        <rect key="frame" x="177" y="30" width="105" height="18"/>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="0fI-J4-eKk" userLabel="Group by Tag">
+                        <rect key="frame" x="179" y="30" width="104" height="18"/>
                         <buttonCell key="cell" type="check" title="Group by Tag" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="lkO-88-VUc">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
