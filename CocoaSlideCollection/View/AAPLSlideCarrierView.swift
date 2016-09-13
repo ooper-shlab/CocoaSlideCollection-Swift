@@ -25,13 +25,13 @@ let SLIDE_BORDER_WIDTH: CGFloat = 4.0     // thickness of border when shown, in 
 // A AAPLSlideCarrierView serves as the container view for each AAPLSlide item.  It displays a "SlideCarrier" slide shape image with built-in shadow, customizes hit-testing to account for the slide shape's rounded corners, and implements visual indication of item selection and highlighting state.
 @objc(AAPLSlideCarrierView)
 class AAPLSlideCarrierView: NSView {
-    private var _highlightState: NSCollectionViewItemHighlightState = .None
+    private var _highlightState: NSCollectionViewItemHighlightState = .none
     private var _selected: Bool = false
     
     //MARK: Animation
     
     // Override the default @"frameOrigin" animation for SlideCarrierViews, to use an "EaseInEaseOut" timing curve.
-    override class func defaultAnimationForKey(key: String) -> AnyObject? {
+    override class func defaultAnimation(forKey key: String) -> Any? {
         struct My {
             static var basicAnimation: CABasicAnimation? = nil
         }
@@ -42,7 +42,7 @@ class AAPLSlideCarrierView: NSView {
             }
             return My.basicAnimation!
         } else {
-            return super.defaultAnimationForKey(key)
+            return super.defaultAnimation(forKey: key)
         }
     }
     
@@ -51,7 +51,7 @@ class AAPLSlideCarrierView: NSView {
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        _highlightState = .None
+        _highlightState = .none
     }
     
     required init?(coder: NSCoder) {
@@ -114,17 +114,17 @@ class AAPLSlideCarrierView: NSView {
     // Invoked from our -updateLayer override.  Adds a AAPLSlideBorderView subview with appropriate properties (or removes an existing AAPLSlideBorderView), as appropriate to visually indicate the slide's "highlightState" and whether the slide is "selected".
     private func updateBorderView() {
         var borderColor: NSColor? = nil
-        if highlightState == .ForSelection {
+        if highlightState == .forSelection {
             
             // Item is a candidate to become selected: Show an orange border around it.
-            borderColor = NSColor.orangeColor()
+            borderColor = NSColor.orange
             
-        } else if highlightState == .AsDropTarget {
+        } else if highlightState == .asDropTarget {
             
             // Item is a candidate to receive dropped items: Show a red border around it.
-            borderColor = NSColor.redColor()
+            borderColor = NSColor.red
             
-        } else if selected && highlightState != .ForDeselection {
+        } else if selected && highlightState != .forDeselection {
             
             // Item is selected, and is not indicated for proposed deselection: Show an Aqua border around it.
             borderColor = NSColor(calibratedRed: 0.0, green: 0.5, blue: 1.0, alpha: 1.0) // Aqua
@@ -164,13 +164,13 @@ class AAPLSlideCarrierView: NSView {
         return NSBezierPath(roundedRect: shapeBox, xRadius: SLIDE_CORNER_RADIUS, yRadius: SLIDE_CORNER_RADIUS)
     }
     
-    override func hitTest(aPoint: NSPoint) -> NSView? {
+    override func hitTest(_ aPoint: NSPoint) -> NSView? {
         // Hit-test against the slide's rounded-rect shape.
-        let pointInSelf = self.convertPoint(aPoint, fromView: self.superview)
+        let pointInSelf = self.convert(aPoint, from: self.superview)
         let bounds = self.bounds
         if !NSPointInRect(pointInSelf, bounds) {
             return nil
-        } else if !self.slideShape.containsPoint(pointInSelf) {
+        } else if !self.slideShape.contains(pointInSelf) {
             return nil
         } else {
             return super.hitTest(aPoint)

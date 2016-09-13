@@ -19,15 +19,15 @@ import Cocoa
 @objc(AAPLImageFile)
 class AAPLImageFile: NSObject {
     private var imageSource: CGImageSource?           // NULL until metadata is loaded
-    private var imageProperties: [NSObject: AnyObject]?          // nil until metadata is loaded
+    private var imageProperties: [AnyHashable: Any]?          // nil until metadata is loaded
     
     
     //MARK: File Properties
     
-    @NSCopying var url: NSURL
+    var url: URL
     @objc dynamic var fileType: String?
     var fileSize: UInt64 = 0
-    @NSCopying var dateLastUpdated: NSDate?
+    var dateLastUpdated: Date?
     var tagNames: [String] = []
     
     
@@ -36,16 +36,16 @@ class AAPLImageFile: NSObject {
     @objc dynamic var previewImage: NSImage?
     
     
-    override class func keyPathsForValuesAffectingValueForKey(key: String) -> Set<String> {
+    override class func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
         if key == "localizedTypeDescription" {
             return ["fileType"]
         } else {
-            return super.keyPathsForValuesAffectingValueForKey(key)
+            return super.keyPathsForValuesAffectingValue(forKey: key)
         }
     }
     
-    private static var previewLoadingOperationQueue: NSOperationQueue = {
-        let queue = NSOperationQueue()
+    private static var previewLoadingOperationQueue: OperationQueue = {
+        let queue = OperationQueue()
         queue.name = "AAPLImageFile Preview Loading Queue"
         return queue
     }()
@@ -70,36 +70,36 @@ class AAPLImageFile: NSObject {
         "Floating Ice" : ["Landscape", "Snow", "Water"]
     ]
     
-    class func demoTagNamesForImageFileURL(url: NSURL) -> [String]? {
-        let filenameWithoutExtension = url.URLByDeletingPathExtension!.lastPathComponent!
+    class func demoTagNamesForImageFileURL(_ url: URL) -> [String]? {
+        let filenameWithoutExtension = url.deletingPathExtension().lastPathComponent
         return self.demoTagNamesDictionary[filenameWithoutExtension]
     }
     
-    init(URL newURL: NSURL) {
+    init(URL newURL: URL) {
         self.url = newURL
         
         // Get properties that we can obtain from the URL.
         var value: AnyObject?
         do {
-            try newURL.getResourceValue(&value, forKey: NSURLTypeIdentifierKey)
+            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey)
             self.fileType = value as! String?
         } catch _ {}
         do {
-            try newURL.getResourceValue(&value, forKey: NSURLFileSizeKey)
-            self.fileSize = (value as! NSNumber).unsignedLongLongValue
+            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.fileSizeKey)
+            self.fileSize = (value as! NSNumber).uint64Value
         } catch _ {}
         do {
-            try newURL.getResourceValue(&value, forKey: NSURLContentModificationDateKey)
-            self.dateLastUpdated = (value as! NSDate)
+            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.contentModificationDateKey)
+            self.dateLastUpdated = (value as! Date)
         } catch _ {}
         do {
-            try newURL.getResourceValue(&value, forKey: NSURLTagNamesKey)
+            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.tagNamesKey)
             self.tagNames = (value as! [String]?) ?? []
         } catch _ {}
         super.init()
         if self.tagNames.isEmpty {
             // For Demo purposes, since the image files in "/Library/Desktop Pictures" don't have tags assigned to them, hardwire tagNames of our own.
-            self.tagNames = self.dynamicType.demoTagNamesForImageFileURL(self.url) ?? []
+            self.tagNames = type(of: self).demoTagNamesForImageFileURL(self.url) ?? []
         }
     }
     
@@ -107,16 +107,16 @@ class AAPLImageFile: NSObject {
     //MARK: File Properties
     
     var filename: String {
-        return self.url.lastPathComponent!
+        return self.url.lastPathComponent
     }
     
     var filenameWithoutExtension: String? {
-        return self.url.URLByDeletingPathExtension!.lastPathComponent!
+        return self.url.deletingPathExtension().lastPathComponent
     }
     
     var localizedTypeDescription: String? {
         if let type = self.fileType {
-            return NSWorkspace.sharedWorkspace().localizedDescriptionForType(type)
+            return NSWorkspace.shared().localizedDescription(forType: type)
         } else {
             return nil
         }
@@ -133,14 +133,14 @@ class AAPLImageFile: NSObject {
         if imageProperties == nil {
             self.loadMetadata()
         }
-        return imageProperties![kCGImagePropertyPixelWidth] as! Int
+        return imageProperties![kCGImagePropertyPixelWidth as AnyHashable] as! Int
     }
     
     var pixelsHigh: Int {
         if imageProperties == nil {
             self.loadMetadata()
         }
-        return imageProperties![kCGImagePropertyPixelHeight] as! Int
+        return imageProperties![kCGImagePropertyPixelHeight as AnyHashable] as! Int
     }
     
     
@@ -155,7 +155,7 @@ class AAPLImageFile: NSObject {
         let sourceURL = self.url.absoluteURL
         
         // Create a CGImageSource from the URL.
-        guard let imageSource = CGImageSourceCreateWithURL(sourceURL, nil) else {
+        guard let imageSource = CGImageSourceCreateWithURL(sourceURL as CFURL, nil) else {
             return false
         }
         guard let _ = CGImageSourceGetType(imageSource) else {
@@ -169,6 +169,7 @@ class AAPLImageFile: NSObject {
     
     // These are triggered automatically the first time relevant properties are requested, but can be invoked explicitly to force loading earlier.
     
+    @discardableResult
     func loadMetadata() -> Bool {
         guard imageProperties == nil else {return true}
             
@@ -182,7 +183,7 @@ class AAPLImageFile: NSObject {
         // having more than one image to offer us.
         //
         let index = 0
-        imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, index, nil) as [NSObject: AnyObject]?
+        imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, index, nil) as! [AnyHashable: Any]?
         
         // Return indicating success!
         return imageProperties != nil
@@ -190,19 +191,19 @@ class AAPLImageFile: NSObject {
     
     func requestPreviewImage() {
         guard self.previewImage == nil else {return}
-        self.dynamicType.previewLoadingOperationQueue.addOperationWithBlock {
+        type(of: self).previewLoadingOperationQueue.addOperation {
             guard self.createImageSource() else {return}
-            let options: [NSObject: AnyObject] = [
+            let options: [AnyHashable: Any] = [
                 // Ask ImageIO to create a thumbnail from the file's image data, if it can't find
                 // a suitable existing thumbnail image in the file.  We could comment out the following
                 // line if only existing thumbnails were desired for some reason (maybe to favor
                 // performance over being guaranteed a complete set of thumbnails).
-                kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-                kCGImageSourceThumbnailMaxPixelSize: 160
+                kCGImageSourceCreateThumbnailFromImageIfAbsent as AnyHashable: true,
+                kCGImageSourceThumbnailMaxPixelSize as AnyHashable: 160
             ]
             guard let thumbnail = CGImageSourceCreateThumbnailAtIndex(self.imageSource!, 0, options as CFDictionary) else {return}
-            let image = NSImage(CGImage: thumbnail, size: NSZeroSize)
-            NSOperationQueue.mainQueue().addOperationWithBlock{
+            let image = NSImage(cgImage: thumbnail, size: NSZeroSize)
+            OperationQueue.main.addOperation{
                 self.previewImage = image
             }
         }

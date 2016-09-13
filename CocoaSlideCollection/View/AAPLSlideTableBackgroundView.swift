@@ -24,7 +24,7 @@ class AAPLSlideTableBackgroundView: NSView {
     override init(frame frameRect: NSRect) {
         let centerColor = NSColor(calibratedRed: 0.94, green: 0.99, blue: 0.98, alpha: 1.0)
         let outerColor = NSColor(calibratedRed: 0.91, green: 1.0, blue: 0.98, alpha: 1.0)
-        gradient = NSGradient(startingColor: centerColor, endingColor: outerColor)!
+        gradient = NSGradient(starting: centerColor, ending: outerColor)!
         super.init(frame: frameRect)
     }
     
@@ -32,7 +32,7 @@ class AAPLSlideTableBackgroundView: NSView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var opaque: Bool {
+    override var isOpaque: Bool {
         return true
     }
     
@@ -49,7 +49,7 @@ class AAPLSlideTableBackgroundView: NSView {
         }
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let image = image {
             // Draw an image, scaled proportionally to fill the view's entire bounds.
             let imageSize = image.size
@@ -64,10 +64,10 @@ class AAPLSlideTableBackgroundView: NSView {
             } else {
                 destRect = NSMakeRect(NSMidX(bounds) - 0.5 * scaleToFillHeight * imageSize.width, bounds.origin.y, scaleToFillHeight * imageSize.width, bounds.size.height)
             }
-            image.drawInRect(destRect, fromRect: NSMakeRect(0, 0, imageSize.width, imageSize.height), operation: .CompositeSourceOver, fraction: 1.0)
+            image.draw(in: destRect, from: NSMakeRect(0, 0, imageSize.width, imageSize.height), operation: .sourceOver, fraction: 1.0)
         } else {
             // Draw a slight radial gradient.
-            gradient.drawInRect(self.bounds, relativeCenterPosition: NSZeroPoint)
+            gradient.draw(in: self.bounds, relativeCenterPosition: NSZeroPoint)
         }
     }
     

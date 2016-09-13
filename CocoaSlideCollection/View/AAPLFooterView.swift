@@ -18,9 +18,9 @@ import Cocoa
 @objc(AAPLFooterView)
 class AAPLFooterView: AAPLHeaderView {
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         NSColor(calibratedWhite: 0.85, alpha: 0.8).set()
-        NSRectFillUsingOperation(dirtyRect, .CompositeSourceOver)
+        NSRectFillUsingOperation(dirtyRect, .sourceOver)
     }
     
 }

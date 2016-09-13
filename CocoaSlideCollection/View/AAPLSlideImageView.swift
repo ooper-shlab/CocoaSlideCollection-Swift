@@ -20,8 +20,8 @@ import Cocoa
 class AAPLSlideImageView: NSImageView {
     
     // Fill in semitransparent gray bands in any areas that the image doesn't cover, to give a more slide-like appearance.
-    override func drawRect(rect: NSRect) {
-        if let image = self.image where self.imageScaling == .ScaleProportionallyDown {
+    override func draw(_ rect: NSRect) {
+        if let image = self.image , self.imageScaling == .scaleProportionallyDown {
             let imageSize = image.size
             let viewSize = self.bounds.size
             if imageSize.height > 0.0 && viewSize.height > 0.0 {
@@ -32,20 +32,20 @@ class AAPLSlideImageView: NSImageView {
                     // Fill in bands at top and bottom.
                     let thumbnailHeight = viewSize.width / imageAspectRatio
                     let bandHeight = 0.5 * (viewSize.height - thumbnailHeight)
-                    NSRectFillUsingOperation(NSMakeRect(0, 0, viewSize.width, bandHeight), .CompositeSourceOver)
-                    NSRectFillUsingOperation(NSMakeRect(0, viewSize.height - bandHeight, viewSize.width, bandHeight), .CompositeSourceOver)
+                    NSRectFillUsingOperation(NSMakeRect(0, 0, viewSize.width, bandHeight), .sourceOver)
+                    NSRectFillUsingOperation(NSMakeRect(0, viewSize.height - bandHeight, viewSize.width, bandHeight), .sourceOver)
                 } else if imageAspectRatio < viewAspectRatio {
                     // Fill in bands at left and right.
                     let thumbnailWidth = viewSize.height * imageAspectRatio
                     let bandWidth = 0.5 * (viewSize.width - thumbnailWidth)
-                    NSRectFillUsingOperation(NSMakeRect(0, 0, bandWidth, viewSize.height), .CompositeSourceOver)
-                    NSRectFillUsingOperation(NSMakeRect(viewSize.width - bandWidth, 0, bandWidth, viewSize.height), .CompositeSourceOver)
+                    NSRectFillUsingOperation(NSMakeRect(0, 0, bandWidth, viewSize.height), .sourceOver)
+                    NSRectFillUsingOperation(NSMakeRect(viewSize.width - bandWidth, 0, bandWidth, viewSize.height), .sourceOver)
                 }
             }
         }
         
         // Now let NSImageView do its drawing.
-        super.drawRect(rect)
+        super.draw(rect)
     }
     
 }

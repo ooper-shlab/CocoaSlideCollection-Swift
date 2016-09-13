@@ -30,7 +30,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
     Given a file:// URL that points to a folder, opens a new browser window that
     displays the image files in that folder.
     */
-    private func openBrowserWindowForFolderURL(folderURL: NSURL) {
+    private func openBrowserWindowForFolderURL(_ folderURL: URL) {
         let browserWindowController = AAPLBrowserWindowController(rootURL: folderURL)
         browserWindowController.showWindow(self)
         
@@ -45,7 +45,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
         controller go.
         */
         if let browserWindow = browserWindowController.window {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AAPLAppDelegate.browserWindowWillClose(_:)), name: NSWindowWillCloseNotification, object: browserWindow)
+            NotificationCenter.default.addObserver(self, selector: #selector(AAPLAppDelegate.browserWindowWillClose(_:)), name: NSNotification.Name.NSWindowWillClose, object: browserWindow)
         }
     }
     
@@ -63,28 +63,28 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
         openPanel.title = "Choose Directory"
         openPanel.canChooseDirectories = true
         openPanel.canChooseFiles = false
-        let pictureDirectories = NSSearchPathForDirectoriesInDomains(.PicturesDirectory, .UserDomainMask, true)
-        openPanel.directoryURL = NSURL(fileURLWithPath: pictureDirectories[0])
+        let pictureDirectories = NSSearchPathForDirectoriesInDomains(.picturesDirectory, .userDomainMask, true)
+        openPanel.directoryURL = URL(fileURLWithPath: pictureDirectories[0])
         
-        openPanel.beginWithCompletionHandler {result in
+        openPanel.begin {result in
             if result == NSModalResponseOK {
-                self.openBrowserWindowForFolderURL(openPanel.URLs[0])
+                self.openBrowserWindowForFolderURL(openPanel.urls[0])
             }
         }
     }
     
     // When a browser window is closed, release its BrowserWindowController.
-    @objc func browserWindowWillClose(notification: NSNotification) {
+    @objc func browserWindowWillClose(_ notification: Notification) {
         let browserWindow = notification.object as! NSWindow
         browserWindowControllers.remove(browserWindow.delegate as! AAPLBrowserWindowController)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSWindowWillCloseNotification, object: browserWindow)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSWindowWillClose, object: browserWindow)
     }
     
     //MARK: NSApplicationDelegate Methods
     
     // Browse a default folder on launch.
-    func applicationDidFinishLaunching(notification: NSNotification) {
-        self.openBrowserWindowForFolderURL(NSURL(fileURLWithPath: "/Library/Desktop Pictures"))
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        self.openBrowserWindowForFolderURL(URL(fileURLWithPath: "/Library/Desktop Pictures"))
     }
     
 }

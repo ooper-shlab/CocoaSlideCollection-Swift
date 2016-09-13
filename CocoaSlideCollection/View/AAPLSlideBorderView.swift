@@ -44,7 +44,7 @@ class AAPLSlideBorderView: NSView {
     
     override func updateLayer() {
         if let layer = self.layer {
-            layer.borderColor = borderColor?.CGColor
+            layer.borderColor = borderColor?.cgColor
             layer.borderWidth = (borderColor != nil ? SLIDE_BORDER_WIDTH : 0.0)
             layer.cornerRadius = SLIDE_CORNER_RADIUS
         }

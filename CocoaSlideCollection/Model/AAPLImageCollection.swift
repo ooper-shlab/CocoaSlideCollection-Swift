@@ -23,23 +23,23 @@ class AAPLImageCollection: NSObject {
     
     //MARK: Properties
     
-    private(set) var rootURL: NSURL?
+    private(set) var rootURL: URL?
     @objc private(set) dynamic var imageFiles: [AAPLImageFile] = []
     
     private var fileTreeWatcherThread: AAPLFileTreeWatcherThread?
-    private var fileTreeScanQueue: NSOperationQueue
+    private var fileTreeScanQueue: OperationQueue
     
-    private var imageFilesByURL: [NSURL: AAPLImageFile] = [:]
+    private var imageFilesByURL: [URL: AAPLImageFile] = [:]
     private(set) var untaggedImageFiles: [AAPLImageFile] = []
     
     @objc dynamic private(set) var tags: [AAPLTag] = []
     private var tagsByName: [String: AAPLTag] = [:]
     
     
-    init(rootURL newRootURL: NSURL) {
+    init(rootURL newRootURL: URL) {
         
-        rootURL = (newRootURL.copy() as! NSURL)
-        let queue = NSOperationQueue()
+        rootURL = ((newRootURL as NSURL).copy() as! URL)
+        let queue = OperationQueue()
         queue.name = "AAPLImageCollection File Tree Scan Queue"
         fileTreeScanQueue = queue
         
@@ -49,7 +49,7 @@ class AAPLImageCollection: NSObject {
         -stopWatchingFolder when closing a browser window.
         */
         super.init()
-        fileTreeWatcherThread = AAPLFileTreeWatcherThread(path: newRootURL.path!) {
+        fileTreeWatcherThread = AAPLFileTreeWatcherThread(path: newRootURL.path) {
             
             // When we detect a change in the folder, scan it to find out what changed.
             self.startOrRestartFileTreeScan()
@@ -60,18 +60,18 @@ class AAPLImageCollection: NSObject {
     
     //MARK: Querying the List of ImageFiles
     
-    func imageFileForURL(imageFileURL: NSURL) -> AAPLImageFile? {
+    func imageFileForURL(_ imageFileURL: URL) -> AAPLImageFile? {
         return imageFilesByURL[imageFileURL]
     }
     
     
     //MARK: Modifying the List of ImageFiles
     
-    func addImageFile(imageFile: AAPLImageFile) {
+    func addImageFile(_ imageFile: AAPLImageFile) {
         self.insertImageFile(imageFile, atIndex: imageFiles.count)
     }
     
-    func insertImageFile(imageFile: AAPLImageFile, atIndex index: Int) {
+    func insertImageFile(_ imageFile: AAPLImageFile, atIndex index: Int) {
         
         // Add and update tags, based on the imageFile's tagNames.
         let tagNames = imageFile.tagNames
@@ -85,41 +85,41 @@ class AAPLImageCollection: NSObject {
             }
         } else {
             // ImageFile has no tags, so add it to "untaggedImageFiles" instead.
-            let insertionIndex = untaggedImageFiles.indexOf(imageFile, inSortedRange: untaggedImageFiles.indices) {imageFile1, imageFile2 in
+            let insertionIndex = untaggedImageFiles.indexOf(imageFile, inSortedRange: untaggedImageFiles.startIndex..<untaggedImageFiles.endIndex) {imageFile1, imageFile2 in
                 return imageFile1.filenameWithoutExtension!.caseInsensitiveCompare(imageFile2.filenameWithoutExtension!)
             }
-            untaggedImageFiles.insert(imageFile, atIndex: insertionIndex)
+            untaggedImageFiles.insert(imageFile, at: insertionIndex)
         }
         
         // Insert the imageFile into our "imageFiles" array (in a KVO-compliant way).
-        self.mutableArrayValueForKey(imageFilesKey).insertObject(imageFile, atIndex: index)
+        self.mutableArrayValue(forKey: imageFilesKey).insert(imageFile, at: index)
         
         // Add the imageFile into our "imageFilesByURL" dictionary.
-        imageFilesByURL[imageFile.url] = imageFile
+        imageFilesByURL[imageFile.url as URL] = imageFile
     }
     
-    func removeImageFile(imageFile: AAPLImageFile) {
+    func removeImageFile(_ imageFile: AAPLImageFile) {
         
         // Remove the imageFile from our "imageFiles" array (in a KVO-compliant way).
-        self.mutableArrayValueForKey(imageFilesKey).removeObject(imageFile)
+        self.mutableArrayValue(forKey: imageFilesKey).remove(imageFile)
         
         // Remove the imageFile from our "imageFilesByURL" dictionary.
-        imageFilesByURL.removeValueForKey(imageFile.url)
+        imageFilesByURL.removeValue(forKey: imageFile.url as URL)
         
         // Remove the imageFile from the "imageFiles" arrays of its AAPLTags (if any).
         for tagName in imageFile.tagNames {
             if let tag = self.tagWithName(tagName) {
-                tag.mutableArrayValueForKey("imageFiles").removeObject(imageFile)
+                tag.mutableArrayValue(forKey: "imageFiles").remove(imageFile)
             }
         }
     }
     
-    func removeImageFileAtIndex(index: Int) {
+    func removeImageFileAtIndex(_ index: Int) {
         let imageFile = imageFiles[index]
         self.removeImageFile(imageFile)
     }
     
-    func moveImageFileFromIndex(fromIndex: Int, toIndex: Int) {
+    func moveImageFileFromIndex(_ fromIndex: Int, toIndex: Int) {
         let imageFilesCount = imageFiles.count
         assert(fromIndex < imageFilesCount)
         assert(toIndex < imageFilesCount)  //###
@@ -131,21 +131,21 @@ class AAPLImageCollection: NSObject {
     
     //MARK: Modifying the List of Tags
     
-    func tagWithName(name: String) -> AAPLTag? {
+    func tagWithName(_ name: String) -> AAPLTag? {
         return tagsByName[name]
     }
     
-    func addTagWithName(name: String) -> AAPLTag {
+    func addTagWithName(_ name: String) -> AAPLTag {
         var tag = self.tagWithName(name)
         if tag == nil {
             tag = AAPLTag(name: name)
             tagsByName[name] = tag
             
             // Binary-search and insert, in alphabetized tags array.
-            let insertionIndex = tags.indexOf(tag!, inSortedRange: tags.indices) {tag1, tag2 in
+            let insertionIndex = tags.indexOf(tag!, inSortedRange: tags.startIndex..<tags.endIndex) {tag1, tag2 in
                 return tag1.name.caseInsensitiveCompare(tag2.name)
             }
-            tags.insert(tag!, atIndex: insertionIndex)
+            tags.insert(tag!, at: insertionIndex)
         }
         return tag!
     }
@@ -159,7 +159,7 @@ class AAPLImageCollection: NSObject {
             self.stopFileTreeScan()
             
             // Enqueue a new file tree scan operation.
-            fileTreeScanQueue.addOperationWithBlock {
+            fileTreeScanQueue.addOperation {
                 
                 /*
                 Enumerate all of the image files in our given rootURL.  As we
@@ -178,31 +178,31 @@ class AAPLImageCollection: NSObject {
                 */
                 var filesToProcess = self.imageFiles
                 var filesChanged: [AAPLImageFile] = []
-                var urlsAdded: [NSURL] = []
+                var urlsAdded: [URL] = []
                 var filesRemoved: [AAPLImageFile] = []
                 
-                let directoryEnumerator = NSFileManager.defaultManager().enumeratorAtURL(self.rootURL!, includingPropertiesForKeys: [NSURLIsRegularFileKey, NSURLTypeIdentifierKey, NSURLContentModificationDateKey], options: [.SkipsSubdirectoryDescendants, .SkipsPackageDescendants]) {url, error in
-                    NSLog("directoryEnumerator error: %@", error)
+                let directoryEnumerator = FileManager.default.enumerator(at: self.rootURL!, includingPropertiesForKeys: [URLResourceKey.isRegularFileKey, URLResourceKey.typeIdentifierKey, URLResourceKey.contentModificationDateKey], options: [.skipsSubdirectoryDescendants, .skipsPackageDescendants]) {url, error in
+                    NSLog("directoryEnumerator error: \(error)")
                     return true
                     }!
                 for url in directoryEnumerator {
-                    let url = url as! NSURL
+                    let url = url as! URL
                     block: do {
                         var isRegularFile: AnyObject? = nil
-                        try url.getResourceValue(&isRegularFile, forKey: NSURLIsRegularFileKey)
+                        try (url as NSURL).getResourceValue(&isRegularFile, forKey: URLResourceKey.isRegularFileKey)
                         guard (isRegularFile as! Bool) else {break block}
                         var fileType: AnyObject? = nil
-                        try url.getResourceValue(&fileType, forKey: NSURLTypeIdentifierKey)
-                        guard UTTypeConformsTo(fileType as! CFString, "public.image") else {break block}
+                        try (url as NSURL).getResourceValue(&fileType, forKey: URLResourceKey.typeIdentifierKey)
+                        guard UTTypeConformsTo(fileType as! CFString, "public.image" as CFString) else {break block}
                         
                         // Look for a corresponding entry in the catalog.
                         if let imageFile = self.imageFileForURL(url) {
                             // Check whether file has changed.
                             var modificationDate: AnyObject? = nil
                             do {
-                                try url.getResourceValue(&modificationDate, forKey: NSURLContentModificationDateKey)
-                                let modificationDate = modificationDate as! NSDate
-                                if modificationDate.compare(imageFile.dateLastUpdated!) == .OrderedDescending {
+                                try (url as NSURL).getResourceValue(&modificationDate, forKey: URLResourceKey.contentModificationDateKey)
+                                let modificationDate = modificationDate as! Date
+                                if modificationDate.compare(imageFile.dateLastUpdated!) == .orderedDescending {
                                     filesChanged.append(imageFile)
                                 }
                             } catch _ {}
@@ -215,7 +215,7 @@ class AAPLImageCollection: NSObject {
                 }
                 
                 // Check for images in the catalog for which no corresponding file was found.
-                filesRemoved.appendContentsOf(filesToProcess)
+                filesRemoved.append(contentsOf: filesToProcess)
                 filesToProcess = []
                 
                 /*
@@ -223,7 +223,7 @@ class AAPLImageCollection: NSObject {
                 that corresponding KVO notifications and CollectionView updates will
                 also happen on the main thread.
                 */
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     
                     // Remove ImageFiles for files we knew about that have disappeared.
                     for imageFile in filesRemoved {

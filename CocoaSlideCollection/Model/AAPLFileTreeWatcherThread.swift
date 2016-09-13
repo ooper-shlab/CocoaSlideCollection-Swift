@@ -17,10 +17,10 @@ import Cocoa
 import CoreServices
 
 @objc(AAPLFileTreeWatcherThread)
-class AAPLFileTreeWatcherThread: NSThread {
+class AAPLFileTreeWatcherThread: Thread {
     private var paths: [String]                 // array of paths we're watching (as NSStrings)
     private var handler: (()->Void)!          // the block to invoke when we sense a change
-    private var fsEventStream: FSEventStreamRef = nil // the FSEventStream that's informing us of changes
+    private var fsEventStream: FSEventStreamRef? = nil // the FSEventStream that's informing us of changes
     
     
     /*
@@ -32,7 +32,7 @@ class AAPLFileTreeWatcherThread: NSThread {
     Send -cancel to stop.
     (AAPLFileTreeWatcherThread inherits these API methods from NSThread.)
     */
-    init(path pathToWatch: String, changeHandler: ()->Void) {
+    init(path pathToWatch: String, changeHandler: @escaping ()->Void) {
         paths = [pathToWatch]
         super.init()
         self.name = "AAPLFileTreeWatcherThread"
@@ -48,7 +48,7 @@ class AAPLFileTreeWatcherThread: NSThread {
     func invokeChangeHandler() {
         synchronized(self) {
             if let handler = handler {
-                NSOperationQueue.mainQueue().addOperationWithBlock(handler)
+                OperationQueue.main.addOperation(handler)
             }
         }
     }
@@ -71,35 +71,35 @@ class AAPLFileTreeWatcherThread: NSThread {
             // Create our fsEventStream.
             var context: FSEventStreamContext = FSEventStreamContext()
             context.version = 0
-            context.info = UnsafeMutablePointer(unsafeAddressOf(self))
+            context.info = Unmanaged.passUnretained(self).toOpaque()
             context.retain = nil
             context.release = nil
             context.copyDescription = nil
-            fsEventStream = FSEventStreamCreate(kCFAllocatorDefault, AAPLFileTreeWatcherEventStreamCallback, &context, paths, FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 1.0, FSEventStreamCreateFlags(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagWatchRoot | kFSEventStreamCreateFlagIgnoreSelf))
+            fsEventStream = FSEventStreamCreate(kCFAllocatorDefault, AAPLFileTreeWatcherEventStreamCallback, &context, paths as CFArray, FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 1.0, FSEventStreamCreateFlags(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagWatchRoot | kFSEventStreamCreateFlagIgnoreSelf))
             if fsEventStream != nil {
                 
                 // Schedule the fsEventStream on our thread's run loop.
-                let runLoop = NSRunLoop.currentRunLoop()
+                let runLoop = RunLoop.current
                 let cfRunLoop = runLoop.getCFRunLoop()
-                FSEventStreamScheduleWithRunLoop(fsEventStream, cfRunLoop, kCFRunLoopCommonModes)
+                FSEventStreamScheduleWithRunLoop(fsEventStream!, cfRunLoop, CFRunLoopMode.commonModes.rawValue)
                 
                 // Open the faucet.
-                FSEventStreamStart(fsEventStream)
+                FSEventStreamStart(fsEventStream!)
                 
                 // Run until we're asked to stop.
-                while !self.cancelled {
-                    runLoop.runUntilDate(NSDate(timeIntervalSinceNow: 0.25))
+                while !self.isCancelled {
+                    runLoop.run(until: Date(timeIntervalSinceNow: 0.25))
                 }
                 
                 // Shut off the faucet.
-                FSEventStreamStop(fsEventStream)
+                FSEventStreamStop(fsEventStream!)
                 
                 // Unschedule the fsEventStream on our thread's run loop.
-                FSEventStreamUnscheduleFromRunLoop(fsEventStream, cfRunLoop, kCFRunLoopCommonModes)
+                FSEventStreamUnscheduleFromRunLoop(fsEventStream!, cfRunLoop, CFRunLoopMode.commonModes.rawValue)
                 
                 // Invalidate and release fsEventStream.
-                FSEventStreamInvalidate(fsEventStream)
-                FSEventStreamRelease(fsEventStream)
+                FSEventStreamInvalidate(fsEventStream!)
+                FSEventStreamRelease(fsEventStream!)
                 fsEventStream = nil
             }
         }
@@ -107,10 +107,10 @@ class AAPLFileTreeWatcherThread: NSThread {
     
 }
 
-private func AAPLFileTreeWatcherEventStreamCallback(streamRef: ConstFSEventStreamRef, clientCallBackInfo: UnsafeMutablePointer<Void>, numEvents: size_t, eventPaths: UnsafeMutablePointer<Void>, eventFlags: UnsafePointer<FSEventStreamEventFlags>, eventIds: UnsafePointer<FSEventStreamEventId>)
+private func AAPLFileTreeWatcherEventStreamCallback(_ streamRef: ConstFSEventStreamRef, clientCallBackInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>?, eventIds: UnsafePointer<FSEventStreamEventId>?)
 {
     if numEvents > 0 {
-        let thread = unsafeBitCast(clientCallBackInfo, AAPLFileTreeWatcherThread.self)
+        let thread = unsafeBitCast(clientCallBackInfo, to: AAPLFileTreeWatcherThread.self)
         
         thread.invokeChangeHandler()
     }

@@ -18,9 +18,9 @@ import Cocoa
 // Positions items randomly, within the available area.
 @objc(AAPLScatterLayout)
 class AAPLScatterLayout: AAPLSlideLayout {
-    private var cachedItemFrames: [NSIndexPath: NSRect] = [:]
+    private var cachedItemFrames: [IndexPath: NSRect] = [:]
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> NSCollectionViewLayoutAttributes? {
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> NSCollectionViewLayoutAttributes? {
         var frameValue = cachedItemFrames[indexPath]
         if frameValue == nil {
             var p: NSPoint = NSPoint()
@@ -30,9 +30,9 @@ class AAPLScatterLayout: AAPLSlideLayout {
             cachedItemFrames[indexPath] = frameValue!
         }
         
-        let attributes = (self.dynamicType.layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWithIndexPath: indexPath)
+        let attributes = (type(of: self).layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
         attributes.frame = frameValue!
-        attributes.zIndex = indexPath.item
+        attributes.zIndex = (indexPath as NSIndexPath).item
         return attributes
     }
     

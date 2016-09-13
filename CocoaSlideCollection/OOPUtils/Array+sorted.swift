@@ -39,20 +39,20 @@ import Foundation
 
 extension Array {
     //### simulate "indexOfObject:inSortedRange:options:usingComparator:" with opts = NSBinarySearchingInsertionIndex
-    func indexOf(element: Element, inSortedRange r: Range<Int>, usingComparison comparison: (Element, Element)->NSComparisonResult) -> Int {
+    func indexOf(_ element: Element, inSortedRange r: Range<Int>, usingComparison comparison: (Element, Element)->ComparisonResult) -> Int {
         if r.isEmpty {
-            return r.startIndex
+            return r.lowerBound
         }
-        var s = r.startIndex
-        var e = r.endIndex - 1
-        var cr: NSComparisonResult = .OrderedSame
+        var s = r.lowerBound
+        var e = r.upperBound - 1
+        var cr: ComparisonResult = .orderedSame
         while s <= e {
             let m = (s + e)/2
             cr = comparison(element, self[m])
-            if cr == .OrderedSame {
+            if cr == .orderedSame {
                 return m
             }
-            if cr == .OrderedAscending {
+            if cr == .orderedAscending {
                 e = m - 1
             } else {
                 s = m + 1

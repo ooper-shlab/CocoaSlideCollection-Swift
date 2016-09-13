@@ -26,11 +26,11 @@ class AAPLTag: NSObject {
         super.init()
     }
     
-    func insertImageFile(imageFile: AAPLImageFile) {
-        let insertionIndex = imageFiles.indexOf(imageFile, inSortedRange: imageFiles.indices) {imageFile1, imageFile2 in
+    func insertImageFile(_ imageFile: AAPLImageFile) {
+        let insertionIndex = imageFiles.indexOf(imageFile, inSortedRange: imageFiles.startIndex..<imageFiles.endIndex) {imageFile1, imageFile2 in
             return imageFile1.filenameWithoutExtension!.caseInsensitiveCompare(imageFile2.filenameWithoutExtension!)
         }
-        imageFiles.insert(imageFile, atIndex: insertionIndex)
+        imageFiles.insert(imageFile, at: insertionIndex)
     }
     
     override var description: String {

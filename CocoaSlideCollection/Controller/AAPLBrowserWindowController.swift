@@ -16,10 +16,10 @@
 import Cocoa
 
 @objc enum SlideLayoutKind: Int {
-    case Circular = 0
-    case Loop
-    case Scatter
-    case Wrapped
+    case circular = 0
+    case loop
+    case scatter
+    case wrapped
 }
 
 /*
@@ -31,7 +31,7 @@ BrowserWindow.xib, so there is no need to set these properties in code.)
 @objc(AAPLBrowserWindowController)
 class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSource, NSCollectionViewDelegate, NSCollectionViewDelegateFlowLayout {
     // Model
-    private var rootURL: NSURL!                                         // URL of the folder whose image files the browser is displaying
+    private var rootURL: URL!                                         // URL of the folder whose image files the browser is displaying
     var imageCollection: AAPLImageCollection?                   // the ImageFiles we found in the folder, which we can access as a flat list or grouped by AAPLTag
     
     //MARK: Outlets
@@ -40,10 +40,10 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     @IBOutlet weak var statusTextField: NSTextField!           // a TextField that shows informative status
     
     // UI State
-    private var _layoutKind: SlideLayoutKind = .Circular                             // what kind of layout to use, per the above SlideLayoutKind enumeration
+    private var _layoutKind: SlideLayoutKind = .circular                             // what kind of layout to use, per the above SlideLayoutKind enumeration
     private var _groupByTag: Bool = false                                        // YES if our imageCollectionView should show its items grouped by tag, with header and footer views (usable with Wrapped layout only)
     private var autoUpdateResponseSuspended: Bool = false                       // YES when we want to suppress our usual automatic KVO response to assets coming and going
-    private var indexPathsOfItemsBeingDragged: Set<NSIndexPath> = []    // when our imageCollectionView is the source for a drag operation, this array of NSIndexPaths identifies the items that are being dragged within or out of it
+    private var indexPathsOfItemsBeingDragged: Set<IndexPath> = []    // when our imageCollectionView is the source for a drag operation, this array of NSIndexPaths identifies the items that are being dragged within or out of it
     
     
     private let HEADER_VIEW_HEIGHT: CGFloat = 39
@@ -53,11 +53,11 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     private let tagsKey = "tags"
     
     // Initializes a browser window that's pointed at the given folder URL.
-    convenience init(rootURL newRootURL: NSURL) {
+    convenience init(rootURL newRootURL: URL) {
         self.init(windowNibName: "BrowserWindow")
-        rootURL = newRootURL.copy() as! NSURL
+        rootURL = (newRootURL as NSURL).copy() as! URL
         _groupByTag = false
-        _layoutKind = SlideLayoutKind.Wrapped
+        _layoutKind = SlideLayoutKind.wrapped
         
         // Create an AAPLImageCollection for browsing our assigned folder.
         imageCollection = AAPLImageCollection(rootURL: rootURL)
@@ -78,7 +78,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     override func windowDidLoad() {
         
         // Set the window's title to the name of the folder we're browsing.
-        self.window?.title = rootURL.lastPathComponent!
+        self.window?.title = rootURL.lastPathComponent
         
         // Set imageCollectionView.collectionViewLayout to match our desired layoutKind.
         self.updateLayout()
@@ -100,13 +100,13 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     private func registerForCollectionViewDragAndDrop() {
         
         // Register for the dropped object types we can accept.
-        imageCollectionView.registerForDraggedTypes([NSURLPboardType])
+        imageCollectionView.register(forDraggedTypes: [NSURLPboardType])
         
         // Enable dragging items from our CollectionView to other applications.
-        imageCollectionView.setDraggingSourceOperationMask(.Every, forLocal: false)
+        imageCollectionView.setDraggingSourceOperationMask(.every, forLocal: false)
         
         // Enable dragging items within and into our CollectionView.
-        imageCollectionView.setDraggingSourceOperationMask(.Every, forLocal: true)
+        imageCollectionView.setDraggingSourceOperationMask(.every, forLocal: true)
     }
     
     //MARK: Properties
@@ -135,8 +135,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 imageCollectionView.reloadData()
                 
                 if _groupByTag {
-                    NSAnimationContext.currentContext().duration = 0.0 // Suppress animation.
-                    self.layoutKind = .Wrapped // Only our Wrapped layout is designed to deal with sections.
+                    NSAnimationContext.current().duration = 0.0 // Suppress animation.
+                    self.layoutKind = .wrapped // Only our Wrapped layout is designed to deal with sections.
                 }
             }
         }
@@ -149,8 +149,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         
         set(newLayoutKind) {
             if _layoutKind != newLayoutKind {
-                if newLayoutKind != .Wrapped && _groupByTag {
-                    NSAnimationContext.currentContext().duration = 0.0 // Suppress animation.
+                if newLayoutKind != .wrapped && _groupByTag {
+                    NSAnimationContext.current().duration = 0.0 // Suppress animation.
                     groupByTag = false
                 }
                 _layoutKind = newLayoutKind
@@ -163,14 +163,14 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         
         var layout: NSCollectionViewLayout? = nil
         switch layoutKind {
-        case .Circular: layout = AAPLCircularLayout()
-        case .Loop: layout = AAPLLoopLayout()
-        case .Scatter: layout = AAPLScatterLayout()
-        case .Wrapped: layout = AAPLWrappedLayout()
+        case .circular: layout = AAPLCircularLayout()
+        case .loop: layout = AAPLLoopLayout()
+        case .scatter: layout = AAPLScatterLayout()
+        case .wrapped: layout = AAPLWrappedLayout()
         }
         if let layout = layout {
-            if NSAnimationContext.currentContext().duration ?? 0.0 > 0.0 {
-                NSAnimationContext.currentContext().duration = 0.5
+            if NSAnimationContext.current().duration > 0.0 {
+                NSAnimationContext.current().duration = 0.5
                 imageCollectionView.animator().collectionViewLayout = layout
             } else {
                 imageCollectionView.collectionViewLayout = layout
@@ -186,8 +186,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         autoUpdateResponseSuspended = false
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if object === imageCollectionView && keyPath == selectionIndexPathsKey {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if object as AnyObject? === imageCollectionView && keyPath == selectionIndexPathsKey {
             
             /*
             We're being notified that our imageCollectionView's
@@ -197,7 +197,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             let newSelectedIndexPaths = imageCollectionView.selectionIndexPaths
             self.showStatus("\(newSelectedIndexPaths.count) items selected")
             
-        } else if object === imageCollection && !autoUpdateResponseSuspended {
+        } else if object as AnyObject? === imageCollection && !autoUpdateResponseSuspended {
             
             /*
             We're being notified that our imageCollection's contents have
@@ -213,32 +213,32 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             (section,item) NSIndexPaths.
             */
             
-            let kind = change![NSKeyValueChangeKindKey]! as! UInt
-            if kind == NSKeyValueChange.Insertion.rawValue || kind == NSKeyValueChange.Removal.rawValue {
+            let kind = change![NSKeyValueChangeKey.kindKey]! as! UInt
+            if kind == NSKeyValueChange.insertion.rawValue || kind == NSKeyValueChange.removal.rawValue {
                 
-                let indexes = change!["indexes"]! as! NSIndexSet
-                var indexPaths: Set<NSIndexPath> = []
+                let indexes = change![NSKeyValueChangeKey.indexesKey]! as! IndexSet
+                var indexPaths: Set<IndexPath> = []
                 if keyPath == imageFilesKey {
-                    if object === imageCollection {
+                    if object as AnyObject? === imageCollection {
                         
                         // Our imageCollection's "imageFiles" array changed.
-                        indexes.enumerateIndexesUsingBlock {itemIndex, stop in
-                            indexPaths.insert(NSIndexPath(forItem: itemIndex, inSection: 0))
+                        indexes.forEach {itemIndex in
+                            indexPaths.insert(IndexPath(item: itemIndex, section: 0))
                         }
                         
                     } else if let object = object as? AAPLTag {
                         
                         // An AAPLTag's "imageFiles" array changed.
-                        if let sectionIndex = imageCollection?.tags.indexOf(object) {
-                            indexes.enumerateIndexesUsingBlock {itemIndex, stop in
-                                indexPaths.insert(NSIndexPath(forItem: itemIndex, inSection: sectionIndex))
+                        if let sectionIndex = imageCollection?.tags.index(of: object) {
+                            indexes.forEach {itemIndex in
+                                indexPaths.insert(IndexPath(item: itemIndex, section: sectionIndex))
                             }
                         }
                         
                     }
                     
                     // Notify our imageCollectionView of the change.
-                    if kind == NSKeyValueChange.Insertion.rawValue {
+                    if kind == NSKeyValueChange.insertion.rawValue {
                         self.handleImageFilesInsertedAtIndexPaths(indexPaths)
                     } else {
                         self.handleImageFilesRemovedAtIndexPaths(indexPaths)
@@ -247,7 +247,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 } else if keyPath == tagsKey {
                     
                     // Our imageCollection's "tags" array changed.
-                    if kind == NSKeyValueChange.Insertion.rawValue {
+                    if kind == NSKeyValueChange.insertion.rawValue {
                         self.handleTagsInsertedInCollectionAtIndexes(indexes)
                     } else {
                         self.handleTagsRemovedFromCollectionAtIndexes(indexes)
@@ -273,17 +273,17 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         imageCollection?.startOrRestartFileTreeScan()
     }
     
-    private func imageFileAtIndexPath(indexPath: NSIndexPath) -> AAPLImageFile? {
+    private func imageFileAtIndexPath(_ indexPath: IndexPath) -> AAPLImageFile? {
         if groupByTag {
             let tags = imageCollection?.tags ?? []
-            let sectionIndex = indexPath.section
+            let sectionIndex = (indexPath as NSIndexPath).section
             if sectionIndex < tags.count {
-                return tags[sectionIndex].imageFiles[indexPath.item]
+                return tags[sectionIndex].imageFiles[(indexPath as NSIndexPath).item]
             } else {
-                return imageCollection?.untaggedImageFiles[indexPath.item]
+                return imageCollection?.untaggedImageFiles[(indexPath as NSIndexPath).item]
             }
         } else {
-            return imageCollection?.imageFiles[indexPath.item]
+            return imageCollection?.imageFiles[(indexPath as NSIndexPath).item]
         }
     }
     
@@ -292,7 +292,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     
     // Each of these methods checks whether "groupByTag" is on, and modifies its behavior accordingly.
     
-    func numberOfSectionsInCollectionView(collectionView: NSCollectionView) -> Int {
+    func numberOfSections(in collectionView: NSCollectionView) -> Int {
         if groupByTag {
             return (imageCollection?.tags.count ?? 0) + 1  // +1 for the special "Untagged" section we put at the end
         } else {
@@ -300,7 +300,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         }
     }
     
-    func collectionView(collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
         if groupByTag {
             let tags = imageCollection?.tags ?? []
             if section < tags.count {
@@ -316,20 +316,20 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         }
     }
     
-    func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
+    func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         // Message back to the collectionView, asking it to make a @"Slide" item associated with the given item indexPath.  The collectionView will first check whether an NSNib or item Class has been registered with that name (via -registerNib:forItemWithIdentifier: or -registerClass:forItemWithIdentifier:).  Failing that, the collectionView will search for a .nib file named "Slide".  Since our .nib file is named "Slide.nib", no registration is necessary.
-        let item = collectionView.makeItemWithIdentifier("Slide", forIndexPath: indexPath)
+        let item = collectionView.makeItem(withIdentifier: "Slide", for: indexPath)
         let imageFile = self.imageFileAtIndexPath(indexPath)
         item.representedObject = imageFile
         
         return item
     }
     
-    func collectionView(collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> NSView {
+    func collectionView(_ collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> NSView {
         var identifier: String? = nil
         var content: String? = nil
         let tags = imageCollection?.tags ?? []
-        let sectionIndex = indexPath.section
+        let sectionIndex = (indexPath as NSIndexPath).section
         
         if sectionIndex < tags.count {
             let tag = tags[sectionIndex]
@@ -352,8 +352,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             identifier = "Footer"
         }
         
-        let view = collectionView.makeSupplementaryViewOfKind(kind, withIdentifier: identifier ?? "", forIndexPath: indexPath)
-        if let content = content, view = view as? AAPLHeaderView {
+        let view = collectionView.makeSupplementaryView(ofKind: kind, withIdentifier: identifier ?? "", for: indexPath)
+        if let content = content, let view = view as? AAPLHeaderView {
             let titleTextField = view.titleTextField
             titleTextField?.stringValue = content
         }
@@ -365,12 +365,12 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     //MARK: NSCollectionViewDelegateFlowLayout Methods
     
     // Implementing this delegate method tells a NSCollectionViewFlowLayout (such as our AAPLWrappedLayout) what size to make a "Header" supplementary view.  (The actual size will be clipped to the CollectionView's width.)
-    func collectionView(collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
         return groupByTag ? NSMakeSize(10000, HEADER_VIEW_HEIGHT) : NSZeroSize; // If groupByTag is NO, we don't want to show a header.
     }
     
     // Implementing this delegate method tells a NSCollectionViewFlowLayout (such as our AAPLWrappedLayout) what size to make a "Footer" supplementary view.  (The actual size will be clipped to the CollectionView's width.)
-    func collectionView(collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForFooterInSection section: Int) -> NSSize {
+    func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForFooterInSection section: Int) -> NSSize {
         return groupByTag ? NSMakeSize(10000, FOOTER_VIEW_HEIGHT) : NSZeroSize; // If groupByTag is NO, we don't want to show a footer.
     }
     
@@ -391,7 +391,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     under certain circumstances, to prevent the items specified by "indexPaths"
     from being dragged.
     */
-    func collectionView(collectionView: NSCollectionView, canDragItemsAtIndexPaths indexPaths: Set<NSIndexPath>, withEvent event: NSEvent) -> Bool {
+    func collectionView(_ collectionView: NSCollectionView, canDragItemsAt indexPaths: Set<IndexPath>, with event: NSEvent) -> Bool {
         return true
     }
     
@@ -401,9 +401,9 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     the item's underlying model object.  Some kinds of model objects (for
     example, NSURL) are themselves suitable pasteboard writers.
     */
-    func collectionView(collectionView: NSCollectionView, pasteboardWriterForItemAtIndexPath indexPath: NSIndexPath) -> NSPasteboardWriting? {
+    func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
         let imageFile = self.imageFileAtIndexPath(indexPath)!
-        return imageFile.url.absoluteURL; // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
+        return imageFile.url.absoluteURL as NSPasteboardWriting?; // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
     }
     
     /*
@@ -415,7 +415,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     to yourself that the drag began in this CollectionView, which will prove
     useful if the same CollectionView ends up being the drop destination.
     */
-    func collectionView(collectionView: NSCollectionView, draggingSession session: NSDraggingSession, willBeginAtPoint screenPoint: NSPoint, forItemsAtIndexPaths indexPaths: Set<NSIndexPath>) {
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItemsAt indexPaths: Set<IndexPath>) {
         
         /*
         Remember the indexPaths we're dragging, in case we end up being the drag
@@ -443,7 +443,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     -collectionView:draggingSession:willBeginAtPoint:forItemsAtIndexPaths:
     method, above.
     */
-    func collectionView(collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAtPoint screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
+    func collectionView(_ collectionView: NSCollectionView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, dragOperation operation: NSDragOperation) {
         
         // Clear the dragging indexPaths we saved earlier.
         indexPathsOfItemsBeingDragged = []
@@ -470,8 +470,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
      proposedDropOperation and proposedDropIndexPath through the provided
      pointers, if desired.
      */
-    func collectionView(collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath?>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionViewDropOperation>) -> NSDragOperation {
-        
+    func collectionView(_ collectionView: NSCollectionView, validateDrop draggingInfo: NSDraggingInfo, proposedIndexPath proposedDropIndexPath: AutoreleasingUnsafeMutablePointer<NSIndexPath>, dropOperation proposedDropOperation: UnsafeMutablePointer<NSCollectionViewDropOperation>) -> NSDragOperation {
+    
         /*
         Interpret the proposedDropIndexPath in the context of the
         proposedDropOperation, and decide whether it's an operation we want to
@@ -493,10 +493,10 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         */
         
         // Evaluate and possibly override the proposed drop operation.
-        var proposedActionDescription = String(format: "Validate drop %@ item at indexPath=%@", StringFromCollectionViewDropOperation(proposedDropOperation.memory), StringFromCollectionViewIndexPath(proposedDropIndexPath.memory))
-        if proposedDropOperation.memory == .On {
-            proposedDropOperation.memory = .Before
-            proposedActionDescription += " -- changed to drop before \(StringFromCollectionViewIndexPath(proposedDropIndexPath.memory))"
+        var proposedActionDescription = String(format: "Validate drop %@ item at indexPath=%@", StringFromCollectionViewDropOperation(proposedDropOperation.pointee), StringFromCollectionViewIndexPath(proposedDropIndexPath.pointee as IndexPath))
+        if proposedDropOperation.pointee == .on {
+            proposedDropOperation.pointee = .before
+            proposedActionDescription += " -- changed to drop before \(StringFromCollectionViewIndexPath(proposedDropIndexPath.pointee as IndexPath))"
         }
         
         // Indicate dragging state in our status TextField.
@@ -512,9 +512,9 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         proposed.
         */
         if !indexPathsOfItemsBeingDragged.isEmpty {
-            return groupByTag ? NSDragOperation.None : NSDragOperation.Move
+            return groupByTag ? NSDragOperation() : NSDragOperation.move
         } else {
-            return NSDragOperation.Copy
+            return NSDragOperation.copy
         }
     }
     
@@ -526,7 +526,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     (2) notifying the CollectionView of the edits.  Return YES if you completed
     the drop successfully, NO if you could not complete the drop.
     */
-    func collectionView(collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: NSIndexPath, dropOperation: NSCollectionViewDropOperation) -> Bool {
+    func collectionView(_ collectionView: NSCollectionView, acceptDrop draggingInfo: NSDraggingInfo, indexPath: IndexPath, dropOperation: NSCollectionViewDropOperation) -> Bool {
         
         var result = false
         let proposedActionDescription = String(format: "Accept drop of %lu items from %@, %@ item at indexPath=%@",
@@ -559,15 +559,15 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 
             } else {
                 
-                let indexPathsOfItemsBeingDraggedSorted = indexPathsOfItemsBeingDragged.sort{$0.compare($1) == .OrderedAscending}
+                let indexPathsOfItemsBeingDraggedSorted = indexPathsOfItemsBeingDragged.sorted{($0 as NSIndexPath).compare($1) == .orderedAscending}
                 /*
                 Walk forward through fromItemIndex values > toItemIndex, to keep
                 our "from" and "to" indexes valid as we go, moving items one at
                 a time.
                 */
-                var toItemIndex = indexPath.item
+                var toItemIndex = (indexPath as NSIndexPath).item
                 for fromIndexPath in indexPathsOfItemsBeingDraggedSorted {
-                    let fromItemIndex = fromIndexPath.item
+                    let fromItemIndex = (fromIndexPath as NSIndexPath).item
                     if fromItemIndex > toItemIndex {
                         
                         /*
@@ -579,7 +579,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         Next, notify the CollectionView of the change we just
                         made to our model.
                         */
-                        imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: NSIndexPath(forItem: toItemIndex, inSection: indexPath.section))
+                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: (indexPath as NSIndexPath).section), to: IndexPath(item: toItemIndex, section: (indexPath as NSIndexPath).section))
                         
                         // Advance to maintain moved items in their original order.
                         toItemIndex += 1
@@ -591,9 +591,9 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 keep our "from" and "to" indexes valid as we go, moving items
                 one at a time.
                 */
-                var adjustedToItemIndex = indexPath.item - 1
-                for fromIndexPath in indexPathsOfItemsBeingDraggedSorted.lazy.reverse() {
-                    let fromItemIndex = fromIndexPath.item
+                var adjustedToItemIndex = (indexPath as NSIndexPath).item - 1
+                for fromIndexPath in indexPathsOfItemsBeingDraggedSorted.lazy.reversed() {
+                    let fromItemIndex = (fromIndexPath as NSIndexPath).item
                     if fromItemIndex < adjustedToItemIndex {
                         
                         /*
@@ -605,8 +605,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         Next, notify the CollectionView of the change we just
                         made to our model.
                         */
-                        let adjustedToIndexPath = NSIndexPath(forItem: adjustedToItemIndex, inSection: indexPath.section)
-                        imageCollectionView.animator().moveItemAtIndexPath(NSIndexPath(forItem: fromItemIndex, inSection: indexPath.section), toIndexPath: adjustedToIndexPath)
+                        let adjustedToIndexPath = IndexPath(item: adjustedToItemIndex, section: (indexPath as NSIndexPath).section)
+                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: (indexPath as NSIndexPath).section), to: adjustedToIndexPath)
                         
                         // Retreat to maintain moved items in their original order.
                         adjustedToItemIndex -= 1
@@ -626,10 +626,10 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             object.  Accumulate the URLs among them into a "droppedObjects"
             array.
             */
-            var droppedObjects: [NSURL] = []
-            draggingInfo.enumerateDraggingItemsWithOptions([], forView: collectionView, classes: [NSURL.self], searchOptions: [NSPasteboardURLReadingFileURLsOnlyKey: true]) {draggingItem, idx, stop in
+            var droppedObjects: [URL] = []
+            draggingInfo.enumerateDraggingItems(options: [], for: collectionView, classes: [URL.self as! AnyObject.Type], searchOptions: [NSPasteboardURLReadingFileURLsOnlyKey: true]) {draggingItem, idx, stop in
                 
-                if let url = draggingItem.item as? NSURL {
+                if let url = draggingItem.item as? URL {
                     droppedObjects.append(url)
                 }
             }
@@ -645,7 +645,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             We check first whether the colleciton already contains an ImageFile
             with the given URL, and disallow duplicates.
             */
-            let insertionIndex = indexPath.item
+            let insertionIndex = (indexPath as NSIndexPath).item
             var errors: [NSError] = []
             for url in droppedObjects {
                 var imageFile = imageCollection?.imageFileForURL(url)
@@ -655,11 +655,11 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                     Copy the image file from the source URL into our
                     imageCollection's folder.
                     */
-                    guard let targetURL = imageCollection?.rootURL?.URLByAppendingPathComponent(url.lastPathComponent!, isDirectory: false) else {
+                    guard let targetURL = imageCollection?.rootURL?.appendingPathComponent(url.lastPathComponent, isDirectory: false) else {
                         fatalError()
                     }
                     do {
-                        try NSFileManager.defaultManager().copyItemAtURL(url, toURL: targetURL)
+                        try FileManager.default.copyItem(at: url, to: targetURL)
                         
                         /*
                         Now create and insert an ImageFile that references the
@@ -675,7 +675,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         Next, notify the CollectionView of the change we just
                         made to our model.
                         */
-                        collectionView.animator().insertItemsAtIndexPaths([indexPath])
+                        collectionView.animator().insertItems(at: [indexPath])
                         
                         // We succeeded in accepting at least one item.
                         result = true
@@ -691,7 +691,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             }
             
             if !errors.isEmpty {
-                imageCollectionView.presentError(errors[0], modalForWindow: imageCollectionView.window!, delegate: nil, didPresentSelector: nil, contextInfo: nil)
+                imageCollectionView.presentError(errors[0], modalFor: imageCollectionView.window!, delegate: nil, didPresent: nil, contextInfo: nil)
             }
         }
         
@@ -705,13 +705,13 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     
     //MARK: Teardown
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         imageCollection?.stopWatchingFolder() // Break retain cycle, allowing teardown.
         self.stopObservingImageCollection()
         imageCollectionView.removeObserver(self, forKeyPath: selectionIndexPathsKey)
     }
     
-    private func showStatus(statusMessage: String) {
+    private func showStatus(_ statusMessage: String) {
         statusTextField.stringValue = statusMessage
     }
     
@@ -750,42 +750,42 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         }
     }
     
-    private func handleImageFilesInsertedAtIndexPaths(indexPaths: Set<NSIndexPath>) {
-        NSAnimationContext.currentContext().duration = 0.25
-        self.imageCollectionView.animator().insertItemsAtIndexPaths(indexPaths)
+    private func handleImageFilesInsertedAtIndexPaths(_ indexPaths: Set<IndexPath>) {
+        NSAnimationContext.current().duration = 0.25
+        self.imageCollectionView.animator().insertItems(at: indexPaths)
     }
     
-    private func handleImageFilesRemovedAtIndexPaths(indexPaths: Set<NSIndexPath>) {
-        NSAnimationContext.currentContext().duration = 0.25
-        self.imageCollectionView.animator().deleteItemsAtIndexPaths(indexPaths)
+    private func handleImageFilesRemovedAtIndexPaths(_ indexPaths: Set<IndexPath>) {
+        NSAnimationContext.current().duration = 0.25
+        self.imageCollectionView.animator().deleteItems(at: indexPaths)
     }
     
-    private func handleTagsInsertedInCollectionAtIndexes(indexes: NSIndexSet) {
-        NSAnimationContext.currentContext().duration = 0.25
+    private func handleTagsInsertedInCollectionAtIndexes(_ indexes: IndexSet) {
+        NSAnimationContext.current().duration = 0.25
         self.imageCollectionView.animator().insertSections(indexes)
     }
     
-    private func handleTagsRemovedFromCollectionAtIndexes(indexes: NSIndexSet) {
-        NSAnimationContext.currentContext().duration = 0.25
+    private func handleTagsRemovedFromCollectionAtIndexes(_ indexes: IndexSet) {
+        NSAnimationContext.current().duration = 0.25
         self.imageCollectionView?.animator().deleteSections(indexes)
     }
     
 }
 
-private func StringFromCollectionViewDropOperation(dropOperation: NSCollectionViewDropOperation) -> String {
+private func StringFromCollectionViewDropOperation(_ dropOperation: NSCollectionViewDropOperation) -> String {
     switch dropOperation {
-    case .Before:
+    case .before:
         return "before";
         
-    case .On:
+    case .on:
         return "on";
         
     }
 }
 
-private func StringFromCollectionViewIndexPath(indexPath: NSIndexPath?) -> String {
-    if let indexPath = indexPath where indexPath.length == 2 {
-        return "(\(indexPath.section),\(indexPath.item))"
+private func StringFromCollectionViewIndexPath(_ indexPath: IndexPath?) -> String {
+    if let indexPath = indexPath , (indexPath as NSIndexPath).length == 2 {
+        return "(\((indexPath as NSIndexPath).section),\((indexPath as NSIndexPath).item))"
     } else {
         return "(nil)"
     }

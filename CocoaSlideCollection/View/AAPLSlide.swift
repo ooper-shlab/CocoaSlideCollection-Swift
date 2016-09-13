@@ -48,12 +48,12 @@ class AAPLSlide: NSCollectionViewItem {
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         get {
-            return super.selected
+            return super.isSelected
         }
         set {
-            super.selected = newValue
+            super.isSelected = newValue
             
             // Relay the new "selected" state to our AAPLSlideCarrierView.
             (self.view as! AAPLSlideCarrierView).selected = newValue
@@ -68,9 +68,9 @@ class AAPLSlide: NSCollectionViewItem {
     }
     
     // We set a Slide's representedObject to point to the AAPLImageFile it stands for.  If you aren't using Bindings to provide the desired content for your item's views, an override of -setRepresentedObject: is a handy place to manually set such content when the model object (AAPLImageFile) is first associated with the item (AAPLSlide).  (Another good place to do that is in the -collectionView:willDisplayItem:forRepresentedObjectAtIndexPath: delegate method, depending how your like to factor your code.)  Our project uses Bindings to populate a Slide's imageView and NSTextFields, but we do use -setRepresentedObject: as an opportunity to request asynchronous loading of the ImageFile's previewImage.  When the previewImage has finished loading on a background thread, the AAPLImageFile will get a -setPreviewImage: message, scheduled for delivery on the main thread.  The Slide's imageView, whose content is bound to our representedObject's previewImage property, will then automatically show the loaded preview image.
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         get {
-            return super.representedObject
+            return super.representedObject as AnyObject?
         }
         set(newRepresentedObject) {
             super.representedObject = newRepresentedObject
@@ -84,11 +84,11 @@ class AAPLSlide: NSCollectionViewItem {
     //MARK: Event Handling
     
     // When a slide is double-clicked, open the image file.
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         if theEvent.clickCount == 2 {
             self.openImageFile(self)
         } else {
-            super.mouseDown(theEvent)
+            super.mouseDown(with: theEvent)
         }
     }
     
@@ -98,7 +98,7 @@ class AAPLSlide: NSCollectionViewItem {
     // Open the image file, using the default app for files of its type.
     @IBAction func openImageFile(_: AnyObject) {
         if let url = self.imageFile?.url {
-            NSWorkspace.sharedWorkspace().openURL(url)
+            NSWorkspace.shared().open(url as URL)
         }
     }
     
@@ -110,7 +110,7 @@ class AAPLSlide: NSCollectionViewItem {
     
     // Set the image as the CollectionView's background (using the "backgroundView" property).
     @IBAction func setCollectionViewBackground(_: AnyObject) {
-        self.slideTableBackgroundView?.image = NSImage(byReferencingURL: self.imageFile!.url)
+        self.slideTableBackgroundView?.image = NSImage(byReferencing: self.imageFile!.url as URL)
     }
     
     // Clear the CollectionView's background back to its default appearance.
@@ -127,7 +127,7 @@ class AAPLSlide: NSCollectionViewItem {
         // Image itemRootView.
         let itemRootView = self.view
         let itemBounds = itemRootView.bounds
-        let bitmap = itemRootView.bitmapImageRepForCachingDisplayInRect(itemBounds)!
+        let bitmap = itemRootView.bitmapImageRepForCachingDisplay(in: itemBounds)!
         let bitmapData = bitmap.bitmapData
         if bitmapData != nil {
             bzero(bitmapData, bitmap.bytesPerRow * bitmap.pixelsHigh)
@@ -142,17 +142,17 @@ class AAPLSlide: NSCollectionViewItem {
         // Work around SlideCarrierView layer contents not being rendered to bitmap.
         let slideCarrierImage = NSImage(named: "SlideCarrier")
         NSGraphicsContext.saveGraphicsState()
-        let oldContext = NSGraphicsContext.currentContext()
-        NSGraphicsContext.setCurrentContext(NSGraphicsContext(bitmapImageRep: bitmap))
-        slideCarrierImage?.drawInRect(itemBounds, fromRect: NSZeroRect, operation: .CompositeSourceOver, fraction: 1.0)
-        NSGraphicsContext.setCurrentContext(oldContext)
+        let oldContext = NSGraphicsContext.current()
+        NSGraphicsContext.setCurrent(NSGraphicsContext(bitmapImageRep: bitmap))
+        slideCarrierImage?.draw(in: itemBounds, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
+        NSGraphicsContext.setCurrent(oldContext)
         NSGraphicsContext.restoreGraphicsState()
         
         /*
         Invoke -cacheDisplayInRect:toBitmapImageRep: to render the rest of the
         itemRootView subtree into the bitmap.
         */
-        itemRootView.cacheDisplayInRect(itemBounds, toBitmapImageRep: bitmap)
+        itemRootView.cacheDisplay(in: itemBounds, to: bitmap)
         let image = NSImage(size: bitmap.size)
         image.addRepresentation(bitmap)
         

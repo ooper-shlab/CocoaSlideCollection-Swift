@@ -21,8 +21,8 @@ class AAPLLoopLayout: AAPLSlideLayout {
     private var loopCenter: NSPoint = NSPoint()
     private var loopSize: NSSize = NSSize()
     
-    override func prepareLayout() {
-        super.prepareLayout()
+    override func prepare() {
+        super.prepare()
         
         let halfItemWidth = 0.5 * itemSize.width
         let halfItemHeight = 0.5 * itemSize.height
@@ -31,22 +31,22 @@ class AAPLLoopLayout: AAPLSlideLayout {
         loopSize = NSMakeSize(0.5 * (box.size.width - 2.0 * radiusInset), 0.5 * (box.size.height - 2.0 * radiusInset))
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> NSCollectionViewLayoutAttributes? {
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> NSCollectionViewLayoutAttributes? {
         
-        guard let count = self.collectionView?.numberOfItemsInSection(0) where count != 0 else {
+        guard let count = self.collectionView?.numberOfItems(inSection: 0) , count != 0 else {
             return nil
         }
         
-        let itemIndex = indexPath.item
+        let itemIndex = (indexPath as NSIndexPath).item
         let angleInRadians = (CGFloat(itemIndex) / CGFloat(count)) * (2.0 * CGFloat(M_PI))
         var subviewCenter: NSPoint = NSPoint()
         subviewCenter.x = loopCenter.x + loopSize.width * cos(angleInRadians)
         subviewCenter.y = loopCenter.y + loopSize.height * sin(2.0 * angleInRadians)
         let itemFrame = NSMakeRect(subviewCenter.x - 0.5 * itemSize.width, subviewCenter.y - 0.5 * itemSize.height, itemSize.width, itemSize.height)
         
-        let attributes = (self.dynamicType.layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWithIndexPath: indexPath)
+        let attributes = (type(of: self).layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
         attributes.frame = NSRectToCGRect(itemFrame)
-        attributes.zIndex = indexPath.item
+        attributes.zIndex = (indexPath as NSIndexPath).item
         return attributes
     }
     

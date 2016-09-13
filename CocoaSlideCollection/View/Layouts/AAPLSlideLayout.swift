@@ -38,12 +38,12 @@ class AAPLSlideLayout: NSCollectionViewLayout {
         return clipBounds.size // Lay our slides out within the available area.
     }
     
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: NSRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: NSRect) -> Bool {
         return true // Our custom SlideLayouts show all items within the CollectionView's visible rect, and must recompute their layouts for a good fit when that rect changes.
     }
     
-    override func prepareLayout() {
-        super.prepareLayout()
+    override func prepare() {
+        super.prepare()
         
         // Inset by (X_PADDING,Y_PADDING) to precompute the box we need to fix the slides in.
         let collectionViewContentSize = self.collectionViewContentSize
@@ -51,13 +51,13 @@ class AAPLSlideLayout: NSCollectionViewLayout {
     }
     
     // A layout derived from this base class always displays all items, within the visible rectangle.  So we can implement -layoutAttributesForElementsInRect: quite simply, by enumerating all item index paths and obtaining the -layoutAttributesForItemAtIndexPath: for each.  Our subclasses then just have to implement -layoutAttributesForItemAtIndexPath:.
-    override func layoutAttributesForElementsInRect(rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
-        let itemCount = self.collectionView?.numberOfItemsInSection(0) ?? 0
+    override func layoutAttributesForElements(in rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
+        let itemCount = self.collectionView?.numberOfItems(inSection: 0) ?? 0
         var layoutAttributesArray: [NSCollectionViewLayoutAttributes] = []
         layoutAttributesArray.reserveCapacity(itemCount)
         for index in 0..<itemCount {
-            let indexPath = NSIndexPath(forItem: index, inSection: 0)
-            if let layoutAttributes = self.layoutAttributesForItemAtIndexPath(indexPath) {
+            let indexPath = IndexPath(item: index, section: 0)
+            if let layoutAttributes = self.layoutAttributesForItem(at: indexPath) {
                 layoutAttributesArray.append(layoutAttributes)
             }
         }

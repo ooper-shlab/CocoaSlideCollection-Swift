@@ -31,16 +31,16 @@ class AAPLWrappedLayout: NSCollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> NSCollectionViewLayoutAttributes? {
-        let attributes = super.layoutAttributesForItemAtIndexPath(indexPath)
-        attributes?.zIndex = indexPath.item
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> NSCollectionViewLayoutAttributes? {
+        let attributes = super.layoutAttributesForItem(at: indexPath)
+        attributes?.zIndex = (indexPath as NSIndexPath).item
         return attributes
     }
     
-    override func layoutAttributesForElementsInRect(rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
-        let layoutAttributesArray = super.layoutAttributesForElementsInRect(rect)
+    override func layoutAttributesForElements(in rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
+        let layoutAttributesArray = super.layoutAttributesForElements(in: rect)
         for attributes in layoutAttributesArray {
-            attributes.zIndex = attributes.indexPath?.item ?? 0
+            attributes.zIndex = (attributes.indexPath as NSIndexPath?)?.item ?? 0
         }
         return layoutAttributesArray
     }
