@@ -36,8 +36,8 @@ class AAPLCircularLayout: AAPLSlideLayout {
             return nil
         }
         
-        let itemIndex = (indexPath as NSIndexPath).item
-        let angleInRadians = (CGFloat(itemIndex) / CGFloat(count)) * (2.0 * CGFloat(M_PI))
+        let itemIndex = indexPath.item
+        let angleInRadians = (CGFloat(itemIndex) / CGFloat(count)) * (2.0 * .pi)
         var subviewCenter: NSPoint = NSPoint()
         subviewCenter.x = circleCenter.x + circleRadius * cos(angleInRadians)
         subviewCenter.y = circleCenter.y + circleRadius * sin(angleInRadians)

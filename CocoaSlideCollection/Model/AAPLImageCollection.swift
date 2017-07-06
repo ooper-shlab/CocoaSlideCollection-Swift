@@ -38,7 +38,7 @@ class AAPLImageCollection: NSObject {
     
     init(rootURL newRootURL: URL) {
         
-        rootURL = ((newRootURL as NSURL).copy() as! URL)
+        rootURL = newRootURL
         let queue = OperationQueue()
         queue.name = "AAPLImageCollection File Tree Scan Queue"
         fileTreeScanQueue = queue
@@ -95,7 +95,7 @@ class AAPLImageCollection: NSObject {
         self.mutableArrayValue(forKey: imageFilesKey).insert(imageFile, at: index)
         
         // Add the imageFile into our "imageFilesByURL" dictionary.
-        imageFilesByURL[imageFile.url as URL] = imageFile
+        imageFilesByURL[imageFile.url] = imageFile
     }
     
     func removeImageFile(_ imageFile: AAPLImageFile) {
@@ -104,7 +104,7 @@ class AAPLImageCollection: NSObject {
         self.mutableArrayValue(forKey: imageFilesKey).remove(imageFile)
         
         // Remove the imageFile from our "imageFilesByURL" dictionary.
-        imageFilesByURL.removeValue(forKey: imageFile.url as URL)
+        imageFilesByURL.removeValue(forKey: imageFile.url)
         
         // Remove the imageFile from the "imageFiles" arrays of its AAPLTags (if any).
         for tagName in imageFile.tagNames {
@@ -188,20 +188,18 @@ class AAPLImageCollection: NSObject {
                 for url in directoryEnumerator {
                     let url = url as! URL
                     block: do {
-                        var isRegularFile: AnyObject? = nil
-                        try (url as NSURL).getResourceValue(&isRegularFile, forKey: URLResourceKey.isRegularFileKey)
-                        guard (isRegularFile as! Bool) else {break block}
-                        var fileType: AnyObject? = nil
-                        try (url as NSURL).getResourceValue(&fileType, forKey: URLResourceKey.typeIdentifierKey)
-                        guard UTTypeConformsTo(fileType as! CFString, "public.image" as CFString) else {break block}
+                        let resource = try url.resourceValues(forKeys: [.isRegularFileKey, .typeIdentifierKey])
+                        let isRegularFile = resource.isRegularFile!
+                        guard isRegularFile else {break block}
+                        let fileType = resource.typeIdentifier!
+                        guard UTTypeConformsTo(fileType as CFString, "public.image" as CFString) else {break block}
                         
                         // Look for a corresponding entry in the catalog.
                         if let imageFile = self.imageFileForURL(url) {
                             // Check whether file has changed.
-                            var modificationDate: AnyObject? = nil
                             do {
-                                try (url as NSURL).getResourceValue(&modificationDate, forKey: URLResourceKey.contentModificationDateKey)
-                                let modificationDate = modificationDate as! Date
+                                let resource = try url.resourceValues(forKeys: [.contentModificationDateKey])
+                                let modificationDate = resource.contentModificationDate!
                                 if modificationDate.compare(imageFile.dateLastUpdated!) == .orderedDescending {
                                     filesChanged.append(imageFile)
                                 }

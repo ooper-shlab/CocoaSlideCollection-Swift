@@ -55,7 +55,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     // Initializes a browser window that's pointed at the given folder URL.
     convenience init(rootURL newRootURL: URL) {
         self.init(windowNibName: "BrowserWindow")
-        rootURL = (newRootURL as NSURL).copy() as! URL
+        rootURL = newRootURL
         _groupByTag = false
         _layoutKind = SlideLayoutKind.wrapped
         
@@ -276,14 +276,14 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     private func imageFileAtIndexPath(_ indexPath: IndexPath) -> AAPLImageFile? {
         if groupByTag {
             let tags = imageCollection?.tags ?? []
-            let sectionIndex = (indexPath as NSIndexPath).section
+            let sectionIndex = indexPath.section
             if sectionIndex < tags.count {
-                return tags[sectionIndex].imageFiles[(indexPath as NSIndexPath).item]
+                return tags[sectionIndex].imageFiles[indexPath.item]
             } else {
-                return imageCollection?.untaggedImageFiles[(indexPath as NSIndexPath).item]
+                return imageCollection?.untaggedImageFiles[indexPath.item]
             }
         } else {
-            return imageCollection?.imageFiles[(indexPath as NSIndexPath).item]
+            return imageCollection?.imageFiles[indexPath.item]
         }
     }
     
@@ -329,7 +329,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
         var identifier: String? = nil
         var content: String? = nil
         let tags = imageCollection?.tags ?? []
-        let sectionIndex = (indexPath as NSIndexPath).section
+        let sectionIndex = indexPath.section
         
         if sectionIndex < tags.count {
             let tag = tags[sectionIndex]
@@ -403,7 +403,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
     */
     func collectionView(_ collectionView: NSCollectionView, pasteboardWriterForItemAt indexPath: IndexPath) -> NSPasteboardWriting? {
         let imageFile = self.imageFileAtIndexPath(indexPath)!
-        return imageFile.url.absoluteURL as NSPasteboardWriting?; // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
+        return imageFile.url.absoluteURL as NSPasteboardWriting? // An NSURL can be a pasteboard writer, but must be returned as an absolute URL.
     }
     
     /*
@@ -559,15 +559,15 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 
             } else {
                 
-                let indexPathsOfItemsBeingDraggedSorted = indexPathsOfItemsBeingDragged.sorted{($0 as NSIndexPath).compare($1) == .orderedAscending}
+                let indexPathsOfItemsBeingDraggedSorted = indexPathsOfItemsBeingDragged.sorted{$0.compare($1) == .orderedAscending}
                 /*
                 Walk forward through fromItemIndex values > toItemIndex, to keep
                 our "from" and "to" indexes valid as we go, moving items one at
                 a time.
                 */
-                var toItemIndex = (indexPath as NSIndexPath).item
+                var toItemIndex = indexPath.item
                 for fromIndexPath in indexPathsOfItemsBeingDraggedSorted {
-                    let fromItemIndex = (fromIndexPath as NSIndexPath).item
+                    let fromItemIndex = fromIndexPath.item
                     if fromItemIndex > toItemIndex {
                         
                         /*
@@ -579,7 +579,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         Next, notify the CollectionView of the change we just
                         made to our model.
                         */
-                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: (indexPath as NSIndexPath).section), to: IndexPath(item: toItemIndex, section: (indexPath as NSIndexPath).section))
+                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: indexPath.section), to: IndexPath(item: toItemIndex, section: indexPath.section))
                         
                         // Advance to maintain moved items in their original order.
                         toItemIndex += 1
@@ -591,9 +591,9 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                 keep our "from" and "to" indexes valid as we go, moving items
                 one at a time.
                 */
-                var adjustedToItemIndex = (indexPath as NSIndexPath).item - 1
+                var adjustedToItemIndex = indexPath.item - 1
                 for fromIndexPath in indexPathsOfItemsBeingDraggedSorted.lazy.reversed() {
-                    let fromItemIndex = (fromIndexPath as NSIndexPath).item
+                    let fromItemIndex = fromIndexPath.item
                     if fromItemIndex < adjustedToItemIndex {
                         
                         /*
@@ -605,8 +605,8 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
                         Next, notify the CollectionView of the change we just
                         made to our model.
                         */
-                        let adjustedToIndexPath = IndexPath(item: adjustedToItemIndex, section: (indexPath as NSIndexPath).section)
-                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: (indexPath as NSIndexPath).section), to: adjustedToIndexPath)
+                        let adjustedToIndexPath = IndexPath(item: adjustedToItemIndex, section: indexPath.section)
+                        imageCollectionView.animator().moveItem(at: IndexPath(item: fromItemIndex, section: indexPath.section), to: adjustedToIndexPath)
                         
                         // Retreat to maintain moved items in their original order.
                         adjustedToItemIndex -= 1
@@ -627,7 +627,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             array.
             */
             var droppedObjects: [URL] = []
-            draggingInfo.enumerateDraggingItems(options: [], for: collectionView, classes: [URL.self as! AnyObject.Type], searchOptions: [NSPasteboardURLReadingFileURLsOnlyKey: true]) {draggingItem, idx, stop in
+            draggingInfo.enumerateDraggingItems(options: [], for: collectionView, classes: [NSURL.self], searchOptions: [NSPasteboardURLReadingFileURLsOnlyKey: true]) {draggingItem, idx, stop in
                 
                 if let url = draggingItem.item as? URL {
                     droppedObjects.append(url)
@@ -645,7 +645,7 @@ class AAPLBrowserWindowController : NSWindowController, NSCollectionViewDataSour
             We check first whether the colleciton already contains an ImageFile
             with the given URL, and disallow duplicates.
             */
-            let insertionIndex = (indexPath as NSIndexPath).item
+            let insertionIndex = indexPath.item
             var errors: [NSError] = []
             for url in droppedObjects {
                 var imageFile = imageCollection?.imageFileForURL(url)
@@ -784,8 +784,8 @@ private func StringFromCollectionViewDropOperation(_ dropOperation: NSCollection
 }
 
 private func StringFromCollectionViewIndexPath(_ indexPath: IndexPath?) -> String {
-    if let indexPath = indexPath , (indexPath as NSIndexPath).length == 2 {
-        return "(\((indexPath as NSIndexPath).section),\((indexPath as NSIndexPath).item))"
+    if let indexPath = indexPath , indexPath.count == 2 {
+        return "(\(indexPath.section),\(indexPath.item))"
     } else {
         return "(nil)"
     }

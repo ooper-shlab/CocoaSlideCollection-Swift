@@ -110,7 +110,7 @@ class AAPLSlide: NSCollectionViewItem {
     
     // Set the image as the CollectionView's background (using the "backgroundView" property).
     @IBAction func setCollectionViewBackground(_: AnyObject) {
-        self.slideTableBackgroundView?.image = NSImage(byReferencing: self.imageFile!.url as URL)
+        self.slideTableBackgroundView?.image = NSImage(byReferencing: self.imageFile!.url)
     }
     
     // Clear the CollectionView's background back to its default appearance.

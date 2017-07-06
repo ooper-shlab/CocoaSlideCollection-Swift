@@ -33,14 +33,14 @@ class AAPLWrappedLayout: NSCollectionViewFlowLayout {
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> NSCollectionViewLayoutAttributes? {
         let attributes = super.layoutAttributesForItem(at: indexPath)
-        attributes?.zIndex = (indexPath as NSIndexPath).item
+        attributes?.zIndex = indexPath.item
         return attributes
     }
     
     override func layoutAttributesForElements(in rect: NSRect) -> [NSCollectionViewLayoutAttributes] {
         let layoutAttributesArray = super.layoutAttributesForElements(in: rect)
         for attributes in layoutAttributesArray {
-            attributes.zIndex = (attributes.indexPath as NSIndexPath?)?.item ?? 0
+            attributes.zIndex = attributes.indexPath?.item ?? 0
         }
         return layoutAttributesArray
     }

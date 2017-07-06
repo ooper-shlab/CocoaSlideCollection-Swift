@@ -79,22 +79,12 @@ class AAPLImageFile: NSObject {
         self.url = newURL
         
         // Get properties that we can obtain from the URL.
-        var value: AnyObject?
         do {
-            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.typeIdentifierKey)
-            self.fileType = value as! String?
-        } catch _ {}
-        do {
-            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.fileSizeKey)
-            self.fileSize = (value as! NSNumber).uint64Value
-        } catch _ {}
-        do {
-            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.contentModificationDateKey)
-            self.dateLastUpdated = (value as! Date)
-        } catch _ {}
-        do {
-            try (newURL as NSURL).getResourceValue(&value, forKey: URLResourceKey.tagNamesKey)
-            self.tagNames = (value as! [String]?) ?? []
+            let resource = try newURL.resourceValues(forKeys: [.typeIdentifierKey, .fileSizeKey, .contentModificationDateKey, .tagNamesKey])
+            self.fileType = resource.typeIdentifier!
+            self.fileSize = UInt64(resource.fileSize!)
+            self.dateLastUpdated = resource.contentModificationDate!
+            self.tagNames = resource.tagNames ?? []
         } catch _ {}
         super.init()
         if self.tagNames.isEmpty {

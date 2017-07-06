@@ -32,7 +32,7 @@ class AAPLScatterLayout: AAPLSlideLayout {
         
         let attributes = (type(of: self).layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
         attributes.frame = frameValue!
-        attributes.zIndex = (indexPath as NSIndexPath).item
+        attributes.zIndex = indexPath.item
         return attributes
     }
     
