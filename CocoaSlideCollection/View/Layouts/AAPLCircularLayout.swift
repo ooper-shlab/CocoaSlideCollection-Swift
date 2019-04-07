@@ -43,7 +43,7 @@ class AAPLCircularLayout: AAPLSlideLayout {
         subviewCenter.y = circleCenter.y + circleRadius * sin(angleInRadians)
         let itemFrame = NSMakeRect(subviewCenter.x - 0.5 * itemSize.width, subviewCenter.y - 0.5 * itemSize.height, itemSize.width, itemSize.height)
         
-        let attributes = (type(of: self).layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
+        let attributes = (type(of: self).layoutAttributesClass as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
         attributes.frame = NSRectToCGRect(itemFrame)
         attributes.zIndex = itemIndex
         return attributes

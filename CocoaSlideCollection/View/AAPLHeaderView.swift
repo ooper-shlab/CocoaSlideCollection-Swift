@@ -32,18 +32,18 @@ class AAPLHeaderView: NSView, NSCollectionViewElement {
     override func draw(_ dirtyRect: NSRect) {
         // Fill with semitransparent white.
         NSColor(calibratedWhite: 0.95, alpha: 0.7).set()
-        NSRectFillUsingOperation(dirtyRect, .sourceOver)
+        dirtyRect.fill(using: .sourceOver)
         
         // Fill bottom and top edges with semitransparent gray.
         NSColor(calibratedWhite: 0.75, alpha: 0.8).set()
         let bounds = self.bounds
         var bottomEdgeRect = bounds
         bottomEdgeRect.size.height = 1.0
-        NSRectFillUsingOperation(bottomEdgeRect, .sourceOver)
+        bottomEdgeRect.fill(using: .sourceOver)
         
         var topEdgeRect = bottomEdgeRect
         topEdgeRect.origin.y = NSMaxY(bounds) - 1.0
-        NSRectFillUsingOperation(topEdgeRect, .sourceOver)
+        topEdgeRect.fill(using: .sourceOver)
     }
     
 }

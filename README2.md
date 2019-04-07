@@ -17,4 +17,4 @@ See license terms in each file.
 
 ### Build
 
-Xcode 8 GM seed, OS X 10.12 SDK
+Xcode 10.2, OS X 10.14.4 SDK

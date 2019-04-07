@@ -41,9 +41,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		058F20591AE0106A003C6E86 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Slide.xib; sourceTree = "<group>"; };
-		05C20B4D1B06865E00EE9D8B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Footer.xib; sourceTree = "<group>"; };
-		05C20B4F1B06865E00EE9D8B /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Header.xib; sourceTree = "<group>"; };
 		05E0E6E00A8A4B0700C10370 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		05F0DE870A632614004CE6A7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		05F61A0E1B0509AD009C3004 /* SlideArt.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SlideArt.xcassets; path = ../Resources/SlideArt.xcassets; sourceTree = "<group>"; };
@@ -54,8 +51,6 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4D523C501B190C540032EEB7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		5317E3BF16DED79500D89082 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
-		5317E3C116DED79500D89082 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		53AE252416DED25D00165898 /* CocoaSlideCollection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = CocoaSlideCollection.entitlements; path = CocoaSlideCollection/CocoaSlideCollection.entitlements; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CocoaSlideCollection/Info.plist; sourceTree = SOURCE_ROOT; };
 		8D15AC370486D014006FF6A4 /* CocoaSlideCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaSlideCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +76,11 @@
 		D7384D1D1C2B5A85008BB841 /* AAPLFileTreeWatcherThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLFileTreeWatcherThread.swift; sourceTree = "<group>"; };
 		D7384D211C2C1558008BB841 /* AAPLImageCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLImageCollection.swift; sourceTree = "<group>"; };
 		D756F1A41C2826F4006C884C /* AAPLBrowserWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLBrowserWindowController.swift; sourceTree = "<group>"; };
+		D76178CA2259D3BD000C07B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Slide.xib; sourceTree = "<group>"; };
+		D76178CB2259D3BD000C07B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Header.xib; sourceTree = "<group>"; };
+		D76178CC2259D3BD000C07B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Footer.xib; sourceTree = "<group>"; };
+		D76178CD2259D3BD000C07B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		D76178CE2259D3BE000C07B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,7 +298,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 1010;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = ZCR395M3U8;
@@ -313,6 +313,7 @@
 			knownRegions = (
 				en,
 				English,
+				Base,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* xGallery */;
 			projectDirPath = "";
@@ -375,7 +376,7 @@
 		058F20581AE0106A003C6E86 /* Slide.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				058F20591AE0106A003C6E86 /* English */,
+				D76178CA2259D3BD000C07B2 /* Base */,
 			);
 			name = Slide.xib;
 			path = ..;
@@ -384,7 +385,7 @@
 		05C20B4C1B06865E00EE9D8B /* Footer.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				05C20B4D1B06865E00EE9D8B /* English */,
+				D76178CC2259D3BD000C07B2 /* Base */,
 			);
 			name = Footer.xib;
 			path = ..;
@@ -393,7 +394,7 @@
 		05C20B4E1B06865E00EE9D8B /* Header.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				05C20B4F1B06865E00EE9D8B /* English */,
+				D76178CB2259D3BD000C07B2 /* Base */,
 			);
 			name = Header.xib;
 			path = ..;
@@ -420,7 +421,7 @@
 		5317E3BE16DED79500D89082 /* BrowserWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5317E3BF16DED79500D89082 /* English */,
+				D76178CD2259D3BD000C07B2 /* Base */,
 			);
 			name = BrowserWindow.xib;
 			path = ..;
@@ -429,7 +430,7 @@
 		5317E3C016DED79500D89082 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5317E3C116DED79500D89082 /* English */,
+				D76178CE2259D3BE000C07B2 /* Base */,
 			);
 			name = MainMenu.xib;
 			path = ..;
@@ -460,7 +461,7 @@
 				PRODUCT_NAME = CocoaSlideCollection;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -487,7 +488,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.CocoaSlideCollection";
 				PRODUCT_NAME = CocoaSlideCollection;
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -496,12 +497,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -524,12 +533,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

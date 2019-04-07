@@ -72,7 +72,9 @@ class AAPLImageFile: NSObject {
     
     class func demoTagNamesForImageFileURL(_ url: URL) -> [String]? {
         let filenameWithoutExtension = url.deletingPathExtension().lastPathComponent
+        let firstWord = filenameWithoutExtension.components(separatedBy: " ")[0]
         return self.demoTagNamesDictionary[filenameWithoutExtension]
+            ?? self.demoTagNamesDictionary[firstWord]
     }
     
     init(URL newURL: URL) {
@@ -100,19 +102,19 @@ class AAPLImageFile: NSObject {
         return self.url.lastPathComponent
     }
     
-    var filenameWithoutExtension: String? {
+    @objc var filenameWithoutExtension: String? {
         return self.url.deletingPathExtension().lastPathComponent
     }
     
-    var localizedTypeDescription: String? {
+    @objc var localizedTypeDescription: String? {
         if let type = self.fileType {
-            return NSWorkspace.shared().localizedDescription(forType: type)
+            return NSWorkspace.shared.localizedDescription(forType: type)
         } else {
             return nil
         }
     }
     
-    var dimensionsDescription: String {
+    @objc var dimensionsDescription: String {
         return "\(self.pixelsWide) x \(self.pixelsHigh)"
     }
     

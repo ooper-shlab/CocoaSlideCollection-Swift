@@ -44,7 +44,7 @@ class AAPLLoopLayout: AAPLSlideLayout {
         subviewCenter.y = loopCenter.y + loopSize.height * sin(2.0 * angleInRadians)
         let itemFrame = NSMakeRect(subviewCenter.x - 0.5 * itemSize.width, subviewCenter.y - 0.5 * itemSize.height, itemSize.width, itemSize.height)
         
-        let attributes = (type(of: self).layoutAttributesClass() as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
+        let attributes = (type(of: self).layoutAttributesClass as! NSCollectionViewLayoutAttributes.Type).init(forItemWith: indexPath)
         attributes.frame = NSRectToCGRect(itemFrame)
         attributes.zIndex = indexPath.item
         return attributes

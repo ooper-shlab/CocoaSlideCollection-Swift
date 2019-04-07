@@ -25,7 +25,7 @@ let SLIDE_BORDER_WIDTH: CGFloat = 4.0     // thickness of border when shown, in 
 // A AAPLSlideCarrierView serves as the container view for each AAPLSlide item.  It displays a "SlideCarrier" slide shape image with built-in shadow, customizes hit-testing to account for the slide shape's rounded corners, and implements visual indication of item selection and highlighting state.
 @objc(AAPLSlideCarrierView)
 class AAPLSlideCarrierView: NSView {
-    private var _highlightState: NSCollectionViewItemHighlightState = .none
+    private var _highlightState: NSCollectionViewItem.HighlightState = .none
     private var _selected: Bool = false
     
     //MARK: Animation
@@ -38,7 +38,7 @@ class AAPLSlideCarrierView: NSView {
         if key == "frameOrigin" {
             if My.basicAnimation == nil {
                 My.basicAnimation = CABasicAnimation()
-                My.basicAnimation!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+                My.basicAnimation!.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             }
             return My.basicAnimation!
         } else {
@@ -62,7 +62,7 @@ class AAPLSlideCarrierView: NSView {
     //MARK: Property Accessors
     
     // To leave the specifics of highlighted and selected appearance to the SlideCarrierView's implementation, we mirror NSCollectionViewItem's "highlightState" and "selected" properties to it.
-    var highlightState: NSCollectionViewItemHighlightState {
+    var highlightState: NSCollectionViewItem.HighlightState {
         get {
             return _highlightState
         }

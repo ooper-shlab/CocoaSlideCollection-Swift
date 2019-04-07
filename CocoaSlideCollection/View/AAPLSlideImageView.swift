@@ -32,14 +32,14 @@ class AAPLSlideImageView: NSImageView {
                     // Fill in bands at top and bottom.
                     let thumbnailHeight = viewSize.width / imageAspectRatio
                     let bandHeight = 0.5 * (viewSize.height - thumbnailHeight)
-                    NSRectFillUsingOperation(NSMakeRect(0, 0, viewSize.width, bandHeight), .sourceOver)
-                    NSRectFillUsingOperation(NSMakeRect(0, viewSize.height - bandHeight, viewSize.width, bandHeight), .sourceOver)
+                    NSMakeRect(0, 0, viewSize.width, bandHeight).fill(using: .sourceOver)
+                    NSMakeRect(0, viewSize.height - bandHeight, viewSize.width, bandHeight).fill(using: .sourceOver)
                 } else if imageAspectRatio < viewAspectRatio {
                     // Fill in bands at left and right.
                     let thumbnailWidth = viewSize.height * imageAspectRatio
                     let bandWidth = 0.5 * (viewSize.width - thumbnailWidth)
-                    NSRectFillUsingOperation(NSMakeRect(0, 0, bandWidth, viewSize.height), .sourceOver)
-                    NSRectFillUsingOperation(NSMakeRect(viewSize.width - bandWidth, 0, bandWidth, viewSize.height), .sourceOver)
+                    NSMakeRect(0, 0, bandWidth, viewSize.height).fill(using: .sourceOver)
+                    NSMakeRect(viewSize.width - bandWidth, 0, bandWidth, viewSize.height).fill(using: .sourceOver)
                 }
             }
         }

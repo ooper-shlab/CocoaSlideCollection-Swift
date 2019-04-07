@@ -20,7 +20,7 @@ class AAPLFooterView: AAPLHeaderView {
     
     override func draw(_ dirtyRect: NSRect) {
         NSColor(calibratedWhite: 0.85, alpha: 0.8).set()
-        NSRectFillUsingOperation(dirtyRect, .sourceOver)
+        dirtyRect.fill(using: .sourceOver)
     }
     
 }

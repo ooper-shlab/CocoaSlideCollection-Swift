@@ -45,7 +45,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
         controller go.
         */
         if let browserWindow = browserWindowController.window {
-            NotificationCenter.default.addObserver(self, selector: #selector(AAPLAppDelegate.browserWindowWillClose(_:)), name: NSNotification.Name.NSWindowWillClose, object: browserWindow)
+            NotificationCenter.default.addObserver(self, selector: #selector(AAPLAppDelegate.browserWindowWillClose(_:)), name: NSWindow.willCloseNotification, object: browserWindow)
         }
     }
     
@@ -67,7 +67,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
         openPanel.directoryURL = URL(fileURLWithPath: pictureDirectories[0])
         
         openPanel.begin {result in
-            if result == NSModalResponseOK {
+            if result == .OK {
                 self.openBrowserWindowForFolderURL(openPanel.urls[0])
             }
         }
@@ -77,7 +77,7 @@ class AAPLAppDelegate: NSObject, NSApplicationDelegate {
     @objc func browserWindowWillClose(_ notification: Notification) {
         let browserWindow = notification.object as! NSWindow
         browserWindowControllers.remove(browserWindow.delegate as! AAPLBrowserWindowController)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSWindowWillClose, object: browserWindow)
+        NotificationCenter.default.removeObserver(self, name: NSWindow.willCloseNotification, object: browserWindow)
     }
     
     //MARK: NSApplicationDelegate Methods

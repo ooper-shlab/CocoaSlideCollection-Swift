@@ -36,7 +36,7 @@ class AAPLSlide: NSCollectionViewItem {
     
     //MARK: Selection and Highlighting Support
     
-    override var highlightState: NSCollectionViewItemHighlightState {
+    override var highlightState: NSCollectionViewItem.HighlightState {
         get {
             return super.highlightState
         }
@@ -98,14 +98,14 @@ class AAPLSlide: NSCollectionViewItem {
     // Open the image file, using the default app for files of its type.
     @IBAction func openImageFile(_: AnyObject) {
         if let url = self.imageFile?.url {
-            NSWorkspace.shared().open(url as URL)
+            NSWorkspace.shared.open(url as URL)
         }
     }
     
     private var slideTableBackgroundView: AAPLSlideTableBackgroundView? {
         // Find our AAPLSlideTableBackgroundView via NSCollectionViewItem's "collectionView" property.
-        let backgroundView = self.collectionView.backgroundView
-        return backgroundView is AAPLSlideTableBackgroundView ? (backgroundView as! AAPLSlideTableBackgroundView) : nil
+        let backgroundView = self.collectionView?.backgroundView as? AAPLSlideTableBackgroundView
+        return backgroundView
     }
     
     // Set the image as the CollectionView's background (using the "backgroundView" property).
@@ -142,10 +142,10 @@ class AAPLSlide: NSCollectionViewItem {
         // Work around SlideCarrierView layer contents not being rendered to bitmap.
         let slideCarrierImage = NSImage(named: "SlideCarrier")
         NSGraphicsContext.saveGraphicsState()
-        let oldContext = NSGraphicsContext.current()
-        NSGraphicsContext.setCurrent(NSGraphicsContext(bitmapImageRep: bitmap))
+        let oldContext = NSGraphicsContext.current
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
         slideCarrierImage?.draw(in: itemBounds, from: NSZeroRect, operation: .sourceOver, fraction: 1.0)
-        NSGraphicsContext.setCurrent(oldContext)
+        NSGraphicsContext.current = oldContext
         NSGraphicsContext.restoreGraphicsState()
         
         /*
@@ -156,7 +156,7 @@ class AAPLSlide: NSCollectionViewItem {
         let image = NSImage(size: bitmap.size)
         image.addRepresentation(bitmap)
         
-        let component = NSDraggingImageComponent(key: NSDraggingImageComponentIconKey)
+        let component = NSDraggingImageComponent(key: .icon)
         component.frame = itemBounds
         component.contents = image
         

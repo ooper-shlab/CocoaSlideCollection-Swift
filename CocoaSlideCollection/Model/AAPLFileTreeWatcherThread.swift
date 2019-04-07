@@ -107,7 +107,7 @@ class AAPLFileTreeWatcherThread: Thread {
     
 }
 
-private func AAPLFileTreeWatcherEventStreamCallback(_ streamRef: ConstFSEventStreamRef, clientCallBackInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>?, eventIds: UnsafePointer<FSEventStreamEventId>?)
+private func AAPLFileTreeWatcherEventStreamCallback(_ streamRef: ConstFSEventStreamRef, clientCallBackInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>, eventIds: UnsafePointer<FSEventStreamEventId>)
 {
     if numEvents > 0 {
         let thread = unsafeBitCast(clientCallBackInfo, to: AAPLFileTreeWatcherThread.self)
